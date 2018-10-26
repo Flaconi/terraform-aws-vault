@@ -29,6 +29,10 @@ module "aws_vault" {
 }
 ```
 
+## Examples
+
+* [Custom VPC with HashiCorp Vault](examples/custom-vpc-with-vault)
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |

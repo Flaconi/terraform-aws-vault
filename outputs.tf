@@ -25,6 +25,44 @@ output "asg_name_vault_cluster" {
 }
 
 # -------------------------------------------------------------------------------------------------
+# EC2
+# -------------------------------------------------------------------------------------------------
+
+data "aws_instances" "consul" {
+  filter {
+    name   = "tag:Name"
+    values = ["${var.consul_cluster_name}"]
+  }
+}
+
+data "aws_instances" "vault" {
+  filter {
+    name   = "tag:Name"
+    values = ["${var.vault_cluster_name}"]
+  }
+}
+
+output "consul_instance_ids" {
+  description = "List of EC2 instance ids of deployed consul hosts"
+  value       = ["${data.aws_instances.consul.ids}"]
+}
+
+output "vault_instance_ids" {
+  description = "List of EC2 instance ids of deployed vault hosts"
+  value       = ["${data.aws_instances.vault.ids}"]
+}
+
+output "consul_private_ips" {
+  description = "List of private IPs of deployed consul hosts"
+  value       = ["${data.aws_instances.consul.private_ips}"]
+}
+
+output "vault_private_ips" {
+  description = "List of private IPs of deployed vault hosts"
+  value       = ["${data.aws_instances.vault.private_ips}"]
+}
+
+# -------------------------------------------------------------------------------------------------
 # Launch Configuration
 # -------------------------------------------------------------------------------------------------
 output "launch_config_name_consul_cluster" {

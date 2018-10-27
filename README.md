@@ -61,6 +61,10 @@ module "aws_vault" {
 | elb_route53_public_dns_name_vault | The Route53 name attached to the Vault ELB, if spcified in variables. |
 | asg_name_consul_cluster | Autoscaling group name of the Consul cluster. |
 | asg_name_vault_cluster | Autoscaling group name of the Vault cluster. |
+| consul_instance_ids | List of EC2 instance ids of deployed consul hosts |
+| vault_instance_ids | List of EC2 instance ids of deployed vault hosts |
+| consul_private_ips | List of private IPs of deployed consul hosts |
+| vault_private_ips | List of private IPs of deployed vault hosts |
 | launch_config_name_consul_cluster | Launch configuration name of the Consul cluster. |
 | launch_config_name_vault_cluster | Launch configuration name of the Vault cluster. |
 | iam_role_arn_consul_cluster | IAM role ARN attached to the Consul cluster. |

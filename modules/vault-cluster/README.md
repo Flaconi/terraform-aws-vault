@@ -29,17 +29,13 @@ into a single 'aws_security_group' block.
 | wait_for_capacity_timeout | A maximum duration that Terraform should wait for ASG instances to be healthy before timing out. Setting this to '0' causes Terraform to skip all Capacity Waiting behavior. | string | `10m` | no |
 | health_check_type | Controls how health checking is done. Must be one of EC2 or ELB. | string | `EC2` | no |
 | health_check_grace_period | Time, in seconds, after instance comes into service before checking health. | string | `60` | no |
-| instance_profile_path | Path in which to create the IAM instance profile. | string | `/` | no |
 | elb_security_group_id | ID of the security group of a public ELB from which you can API access the Vault instances. | string | - | yes |
 | ssh_security_group_id | ID of the security group of a bastion ssh instance from where you can ssh into the Vault instances. | string | - | yes |
 | consul_security_group_id | ID of the security group of the Consul instances to allow traffic from Consul into Vault. | string | - | yes |
 | cluster_name | The name of the Vault cluster (e.g. vault-stage). This variable is used to namespace all resources created by this module. | string | - | yes |
 | tags | Tags to attach to all AWS resources | map | `<map>` | no |
 | enable_s3_backend | Whether to configure an S3 storage backend in addition to Consul. | string | `false` | no |
-| s3_bucket_name | The name of the S3 bucket to create and use as a storage backend. Only used if 'enable_s3_backend' is set to true. | string | `` | no |
-| force_destroy_s3_bucket | If 'configure_s3_backend' is enabled and you set this to true, when you run terraform destroy, this tells Terraform to delete all the objects in the S3 bucket used for backend storage. You should NOT set this to true in production or you risk losing all your data! This property is only here so automated tests of this module can clean up after themselves. Only used if 'enable_s3_backend' is set to true. | string | `false` | no |
-| enable_auto_unseal | (Vault Enterprise only) Emable auto unseal of the Vault cluster | string | `false` | no |
-| auto_unseal_kms_key_arn | (Vault Enterprise only) The arn of the KMS key used for unsealing the Vault cluster | string | `` | no |
+| s3_bucket_name | The name of the S3 bucket in the same region to use as a storage backend. Only used if 'enable_s3_backend' is set to true. | string | `` | no |
 
 ## Outputs
 

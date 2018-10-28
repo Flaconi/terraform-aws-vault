@@ -65,6 +65,10 @@ module "vault_cluster" {
   vpc_id     = "${var.vpc_id}"
   subnet_ids = "${var.private_subnet_ids}"
 
+  # Use S3 Storage Backend?
+  enable_s3_backend = "${var.enable_s3_backend}"
+  s3_bucket_name    = "${var.s3_bucket_name}"
+
   # Do NOT use the ELB for the ASG health check, or the ASG will assume all sealed instances are
   # unhealthy and repeatedly try to redeploy them.
   # The ELB health check does not work on unsealed Vault instances.
@@ -97,7 +101,9 @@ data "template_file" "user_data_vault_cluster" {
   template = "${file("${path.module}/user-data-vault.sh")}"
 
   vars {
-    aws_region               = "${data.aws_region.current.name}"
+    enable_s3_backend        = "${var.enable_s3_backend ? 1 : 0}"
+    s3_bucket_region         = "${data.aws_region.current.name}"
+    s3_bucket_name           = "${var.s3_bucket_name}"
     consul_cluster_tag_key   = "${local.consul_cluster_tag_key}"
     consul_cluster_tag_value = "${local.consul_cluster_tag_val}"
     ssh_keys                 = "${join("\n", "${var.ssh_keys}")}"

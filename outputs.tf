@@ -28,20 +28,6 @@ output "asg_name_vault_cluster" {
 # EC2
 # -------------------------------------------------------------------------------------------------
 
-data "aws_instances" "consul" {
-  filter {
-    name   = "tag:Name"
-    values = ["${var.consul_cluster_name}"]
-  }
-}
-
-data "aws_instances" "vault" {
-  filter {
-    name   = "tag:Name"
-    values = ["${var.vault_cluster_name}"]
-  }
-}
-
 output "consul_instance_ids" {
   description = "List of EC2 instance ids of deployed consul hosts"
   value       = ["${data.aws_instances.consul.ids}"]

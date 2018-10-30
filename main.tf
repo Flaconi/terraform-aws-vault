@@ -197,3 +197,20 @@ data "template_file" "user_data_consul" {
     ssh_user                 = "ubuntu"
   }
 }
+
+# -------------------------------------------------------------------------------------------------
+# Data sources required for outputs
+# -------------------------------------------------------------------------------------------------
+data "aws_instances" "consul" {
+  filter {
+    name   = "tag:Name"
+    values = ["${var.consul_cluster_name}"]
+  }
+}
+
+data "aws_instances" "vault" {
+  filter {
+    name   = "tag:Name"
+    values = ["${var.vault_cluster_name}"]
+  }
+}

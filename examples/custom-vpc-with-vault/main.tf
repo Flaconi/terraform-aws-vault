@@ -5,31 +5,20 @@ module "aws_vpc" {
   source = "github.com/Flaconi/terraform-modules-vpc?ref=v0.1.0"
 
   # VPC Definition
-  vpc_cidr               = "${var.vpc_cidr}"
-  vpc_subnet_azs         = "${var.vpc_subnet_azs}"
-  vpc_private_subnets    = "${var.vpc_private_subnets}"
-  vpc_public_subnets     = "${var.vpc_public_subnets}"
-  vpc_enable_nat_gateway = "${var.vpc_enable_nat_gateway}"
-  vpc_enable_vpn_gateway = "${var.vpc_enable_vpn_gateway}"
+  vpc_cidr               = "40.10.0.0/16"
+  vpc_subnet_azs         = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]
+  vpc_private_subnets    = ["40.10.10.0/24", "40.10.11.0/24", "40.10.12.0/24"]
+  vpc_public_subnets     = ["40.10.20.0/24", "40.10.21.0/24", "40.10.12.0/24"]
+  vpc_enable_nat_gateway = true
+  vpc_enable_vpn_gateway = false
 
   # Resource Naming/Tagging
-  name                = "${var.name}"
-  bastion_name        = "${var.bastion_cluster_name}"
-  tags                = "${var.tags}"
-  vpc_tags            = "${var.vpc_tags}"
-  public_subnet_tags  = "${var.public_subnet_tags}"
-  private_subnet_tags = "${var.private_subnet_tags}"
-
-  # Bastion DNS
-  bastion_route53_public_dns_name = "${var.bastion_route53_public_dns_name}"
+  name         = "vault-example"
+  bastion_name = "vault-example-bastion"
 
   # Bastion SSH
-  bastion_ssh_keys        = "${var.ssh_keys}"
-  bastion_ssh_cidr_blocks = "${var.bastion_ingress_cidr_ssh}"
-
-  # Bastion Size & Type
-  bastion_cluster_size  = "${var.bastion_cluster_size}"
-  bastion_instance_type = "${var.bastion_instance_type}"
+  bastion_ssh_keys        = ["ssh-ed25519 AAAAC3Nznte5aaCdi1a1Lzaai/tX6Mc2E+S6g3lrClL09iBZ5cW2OZdSIqomcMko 2 mysshkey"]
+  bastion_ssh_cidr_blocks = ["0.0.0.0/0"]
 }
 
 # -------------------------------------------------------------------------------------------------
@@ -44,22 +33,12 @@ module "aws_vault" {
   private_subnet_ids = "${module.aws_vpc.private_subnets}"
 
   # Resource Naming/Tagging
-  name                = "${var.name}"
-  tags                = "${var.tags}"
-  consul_cluster_name = "${var.consul_cluster_name}"
-  vault_cluster_name  = "${var.vault_cluster_name}"
-
-  # Vault DNS
-  vault_route53_public_dns_name = "${var.vault_route53_public_dns_name}"
-
-  # Instance size & count
-  consul_instance_type = "${var.consul_instance_type}"
-  vault_instance_type  = "${var.vault_instance_type}"
-  consul_cluster_size  = "${var.consul_cluster_size}"
-  vault_cluster_size   = "${var.vault_cluster_size}"
+  name                = "vault-example"
+  consul_cluster_name = "vault-example-consul"
+  vault_cluster_name  = "vault-example-vault"
 
   # Security
-  ssh_keys                 = "${var.ssh_keys}"
+  ssh_keys                 = ["ssh-ed25519 AAAAC3Nznte5aaCdi1a1Lzaai/tX6Mc2E+S6g3lrClL09iBZ5cW2OZdSIqomcMko 2 mysshkey"]
   ssh_security_group_id    = "${module.aws_vpc.bastion_security_group_id}"
-  vault_ingress_cidr_https = "${var.vault_ingress_cidr_https}"
+  vault_ingress_cidr_https = ["0.0.0.0/0"]
 }

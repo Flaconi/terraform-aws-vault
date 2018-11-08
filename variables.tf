@@ -90,3 +90,16 @@ variable "vault_ingress_cidr_https" {
   type        = "list"
   default     = ["0.0.0.0/0"]
 }
+
+# -------------------------------------------------------------------------------------------------
+# S3 backend (optional)
+# -------------------------------------------------------------------------------------------------
+variable "enable_s3_backend" {
+  description = "Whether to configure an S3 storage backend in the same region in addition to Consul."
+  default     = false
+}
+
+variable "s3_bucket_name" {
+  description = "The name of the S3 bucket in the same region to use as a storage backend. Only used if 'enable_s3_backend' is set to true."
+  default     = ""
+}

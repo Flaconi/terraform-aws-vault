@@ -82,11 +82,6 @@ variable "health_check_grace_period" {
   default     = 60
 }
 
-variable "instance_profile_path" {
-  description = "Path in which to create the IAM instance profile."
-  default     = "/"
-}
-
 # -------------------------------------------------------------------------------------------------
 # Security groups (required)
 # -------------------------------------------------------------------------------------------------
@@ -127,24 +122,6 @@ variable "enable_s3_backend" {
 }
 
 variable "s3_bucket_name" {
-  description = "The name of the S3 bucket to create and use as a storage backend. Only used if 'enable_s3_backend' is set to true."
-  default     = ""
-}
-
-variable "force_destroy_s3_bucket" {
-  description = "If 'configure_s3_backend' is enabled and you set this to true, when you run terraform destroy, this tells Terraform to delete all the objects in the S3 bucket used for backend storage. You should NOT set this to true in production or you risk losing all your data! This property is only here so automated tests of this module can clean up after themselves. Only used if 'enable_s3_backend' is set to true."
-  default     = false
-}
-
-# -------------------------------------------------------------------------------------------------
-# Vault Enterprise: Auto-unseal (optional)
-# -------------------------------------------------------------------------------------------------
-variable "enable_auto_unseal" {
-  description = "(Vault Enterprise only) Emable auto unseal of the Vault cluster"
-  default     = false
-}
-
-variable "auto_unseal_kms_key_arn" {
-  description = "(Vault Enterprise only) The arn of the KMS key used for unsealing the Vault cluster"
+  description = "The name of the S3 bucket in the same region to use as a storage backend. Only used if 'enable_s3_backend' is set to true."
   default     = ""
 }

@@ -259,7 +259,7 @@ resource "aws_security_group" "lc_security_group" {
 # NOTE: This block has been kept unchanged.
 resource "aws_iam_instance_profile" "instance_profile" {
   name_prefix = "${var.cluster_name}"
-  path        = "${var.instance_profile_path}"
+  path        = "/"
   role        = "${aws_iam_role.instance_role.name}"
 
   # aws_launch_configuration.launch_configuration in this module sets create_before_destroy to
@@ -294,17 +294,6 @@ data "aws_iam_policy_document" "instance_role" {
   }
 }
 
-resource "aws_s3_bucket" "vault_storage" {
-  count         = "${var.enable_s3_backend ? 1 : 0}"
-  bucket        = "${var.s3_bucket_name}"
-  force_destroy = "${var.force_destroy_s3_bucket}"
-
-  tags = "${merge(
-    map("Description", "Used for secret storage with Vault. DO NOT DELETE this Bucket unless you know what you are doing."),
-    var.tags)
-  }"
-}
-
 resource "aws_iam_role_policy" "vault_s3" {
   count  = "${var.enable_s3_backend ? 1 : 0}"
   name   = "vault_s3"
@@ -320,31 +309,13 @@ data "aws_iam_policy_document" "vault_s3" {
     actions = ["s3:*"]
 
     resources = [
-      "${aws_s3_bucket.vault_storage.arn}",
-      "${aws_s3_bucket.vault_storage.arn}/*",
+      "${data.aws_s3_bucket.vault_storage.arn}",
+      "${data.aws_s3_bucket.vault_storage.arn}/*",
     ]
   }
 }
 
-data "aws_iam_policy_document" "vault_auto_unseal_kms" {
-  count = "${var.enable_auto_unseal ? 1 : 0}"
-
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "kms:Encrypt",
-      "kms:Decrypt",
-      "kms:DescribeKey",
-    ]
-
-    resources = ["${var.auto_unseal_kms_key_arn}"]
-  }
-}
-
-resource "aws_iam_role_policy" "vault_auto_unseal_kms" {
-  count  = "${var.enable_auto_unseal ? 1 : 0}"
-  name   = "vault_auto_unseal_kms"
-  role   = "${aws_iam_role.instance_role.id}"
-  policy = "${element(concat(data.aws_iam_policy_document.vault_auto_unseal_kms.*.json, list("")), 0)}"
+data "aws_s3_bucket" "vault_storage" {
+  count  = "${var.enable_s3_backend ? 1 : 0}"
+  bucket = "${var.s3_bucket_name}"
 }

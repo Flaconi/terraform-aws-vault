@@ -69,6 +69,10 @@ module "vault_cluster" {
   enable_s3_backend = "${var.enable_s3_backend}"
   s3_bucket_name    = "${var.s3_bucket_name}"
 
+  # Encrypt S3 Storage Backend?
+  enable_s3_backend_encryption = "${var.enable_s3_backend_encryption}"
+  kms_alias_name               = "${var.kms_alias_name}"
+
   # Do NOT use the ELB for the ASG health check, or the ASG will assume all sealed instances are
   # unhealthy and repeatedly try to redeploy them.
   # The ELB health check does not work on unsealed Vault instances.

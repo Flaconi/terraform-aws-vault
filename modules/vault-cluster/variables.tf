@@ -125,3 +125,13 @@ variable "s3_bucket_name" {
   description = "The name of the S3 bucket in the same region to use as a storage backend. Only used if 'enable_s3_backend' is set to true."
   default     = ""
 }
+
+variable "enable_s3_backend_encryption" {
+  description = "Whether to configure the S3 storage backend to be encrypted with a KMS key."
+  default     = false
+}
+
+variable "kms_alias_name" {
+  description = "The name of the KMS key that is used for S3 storage backend encryption."
+  default     = ""
+}

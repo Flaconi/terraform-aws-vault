@@ -27,7 +27,12 @@ test:
 		echo "################################################################################"; \
 		echo "# Terraform init: $(example)"; \
 		echo "################################################################################"; \
-		docker run -it --rm -v "$(CURRENT_DIR):/t" hashicorp/terraform:light \
-			init -verify-plugins=true -lock=false -input=false -get-plugins=true -get=true /t/$(example); \
+		if docker run -it --rm -v "$(CURRENT_DIR):/t" hashicorp/terraform:light \
+			init -verify-plugins=true -lock=false -input=false -get-plugins=true -get=true /t/$(example); then \
+			echo "OK"; \
+		else \
+			echo "Failed"; \
+			exit 1; \
+		fi; \
 		echo; \
 	)

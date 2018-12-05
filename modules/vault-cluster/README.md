@@ -36,6 +36,8 @@ into a single 'aws_security_group' block.
 | tags | Tags to attach to all AWS resources | map | `<map>` | no |
 | enable_s3_backend | Whether to configure an S3 storage backend in addition to Consul. | string | `false` | no |
 | s3_bucket_name | The name of the S3 bucket in the same region to use as a storage backend. Only used if 'enable_s3_backend' is set to true. | string | `` | no |
+| enable_s3_backend_encryption | Whether to configure the S3 storage backend to be encrypted with a KMS key. | string | `false` | no |
+| kms_alias_name | The name of the KMS key that is used for S3 storage backend encryption. | string | `` | no |
 
 ## Outputs
 

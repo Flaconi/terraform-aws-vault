@@ -294,6 +294,9 @@ data "aws_iam_policy_document" "instance_role" {
   }
 }
 
+# -------------------------------------------------------------------------------------------------
+# Policy to allow access to S3
+# -------------------------------------------------------------------------------------------------
 resource "aws_iam_role_policy" "vault_s3" {
   count  = "${var.enable_s3_backend ? 1 : 0}"
   name   = "vault_s3"
@@ -318,4 +321,38 @@ data "aws_iam_policy_document" "vault_s3" {
 data "aws_s3_bucket" "vault_storage" {
   count  = "${var.enable_s3_backend ? 1 : 0}"
   bucket = "${var.s3_bucket_name}"
+}
+
+# -------------------------------------------------------------------------------------------------
+# Policy to allow access to KMS S3 encryption key
+# -------------------------------------------------------------------------------------------------
+# https://keita.blog/2017/02/21/iam-policy-for-kms-encrypted-remote-terraform-state-in-s3/
+resource "aws_iam_role_policy" "vault_s3_kms" {
+  count  = "${var.enable_s3_backend && var.enable_s3_backend_encryption ? 1 : 0}"
+  name   = "vault_s3_kms"
+  role   = "${aws_iam_role.instance_role.id}"
+  policy = "${element(concat(data.aws_iam_policy_document.vault_s3_kms.*.json, list("")), 0)}"
+}
+
+data "aws_iam_policy_document" "vault_s3_kms" {
+  count = "${var.enable_s3_backend && var.enable_s3_backend_encryption ? 1 : 0}"
+
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "kms:Encrypt",
+      "kms:Decrypt",
+      "kms:GenerateDataKey",
+    ]
+
+    resources = [
+      "${data.aws_kms_key.vault_encryption.arn}",
+    ]
+  }
+}
+
+data "aws_kms_key" "vault_encryption" {
+  count  = "${var.enable_s3_backend && var.enable_s3_backend_encryption ? 1 : 0}"
+  key_id = "${var.kms_alias_name}"
 }

@@ -1,5 +1,6 @@
 # Terraform Module: HashiCorp Vault
 
+[![Build Status](https://travis-ci.com/Flaconi/terraform-aws-vault.svg?branch=master)](https://travis-ci.com/Flaconi/terraform-aws-vault)
 [![Tag](https://img.shields.io/github/tag/Flaconi/terraform-aws-vault.svg)](https://github.com/Flaconi/terraform-aws-vault/releases)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -52,6 +53,10 @@ module "aws_vault" {
 | vault_cluster_size | The number of Vault server nodes to deploy. We strongly recommend using 3 or 5. | string | `3` | no |
 | ssh_security_group_id | Security group ID of a bastion (or other EC2 instance) from which you will be allowed to ssh into Vault and Consul. | string | - | yes |
 | vault_ingress_cidr_https | List of CIDR's from which you are allowed to https access the vault cluster. | list | `<list>` | no |
+| enable_s3_backend | Whether to configure an S3 storage backend in the same region in addition to Consul. | string | `false` | no |
+| s3_bucket_name | The name of the S3 bucket in the same region to use as a storage backend. Only used if 'enable_s3_backend' is set to true. | string | `` | no |
+| enable_s3_backend_encryption | Whether to configure the S3 storage backend to be encrypted with a KMS key. | string | `false` | no |
+| kms_alias_name | The name of the KMS key that is used for S3 storage backend encryption. | string | `` | no |
 
 ## Outputs
 

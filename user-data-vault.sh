@@ -12,6 +12,17 @@ set -x
 # From: https://alestic.com/2010/12/ec2-user-data-output/
 exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
 
+# Install some packages:
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch |\
+ apt-key add -
+echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" |\
+ tee -a /etc/apt/sources.list.d/elastic-7.x.list
+apt-get update
+apt-get install -y software-properties-common
+apt-add-repository --yes --update ppa:ansible/ansible
+apt-get install -y ansible filebeat
+update-rc.d filebeat defaults 95 10
+
 # Add SSH keys
 printf "${ssh_keys}\n" > "/home/${ssh_user}/.ssh/authorized_keys"
 chmod 600 "/home/${ssh_user}/.ssh/authorized_keys"

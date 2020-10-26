@@ -11,7 +11,7 @@ lint:
 	@echo "################################################################################"
 	@echo "# Terraform fmt"
 	@echo "################################################################################"
-	@if docker run -it --rm -v "$(CURRENT_DIR)/terraform:/t:ro" hashicorp/terraform:light \
+	@if docker run -it --rm -v "$(CURRENT_DIR)/terraform:/t:ro" hashicorp/terraform:0.11.14 \
 		fmt -check=true -diff=true -write=false -list=true /t; then \
 		echo "OK"; \
 	else \
@@ -27,7 +27,7 @@ test:
 		echo "################################################################################"; \
 		echo "# Terraform init: $(example)"; \
 		echo "################################################################################"; \
-		if docker run -it --rm -v "$(CURRENT_DIR):/t" hashicorp/terraform:light \
+		if docker run -it --rm -v "$(CURRENT_DIR):/t" hashicorp/terraform:0.11.14 \
 			init -verify-plugins=true -lock=false -input=false -get-plugins=true -get=true /t/$(example); then \
 			echo "OK"; \
 		else \

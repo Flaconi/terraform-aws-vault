@@ -121,7 +121,7 @@ data "aws_region" "current" {}
 # Vault ELB
 # -------------------------------------------------------------------------------------------------
 module "vault_elb" {
-  source = "github.com/Flaconi/terraform-aws-elb?ref=v0.1.0"
+  source = "github.com/Flaconi/terraform-aws-elb?ref=v0.1.6-RC"
 
   name       = "${var.vault_cluster_name}"
   vpc_id     = "${var.vpc_id}"
@@ -139,7 +139,8 @@ module "vault_elb" {
   unhealthy_threshold = "2"
 
   # Security
-  inbound_cidr_blocks = "${var.vault_ingress_cidr_https}"
+  inbound_cidr_blocks  = "${var.vault_ingress_cidr_https}"
+  security_group_names = "${var.security_group_names}"
 
   # DNS
   route53_public_dns_name = "${var.vault_route53_public_dns_name}"

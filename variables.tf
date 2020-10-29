@@ -91,6 +91,12 @@ variable "vault_ingress_cidr_https" {
   default     = ["0.0.0.0/0"]
 }
 
+variable "security_group_names" {
+  description = "List of one or more security groups to be added to the load balancer"
+  type        = "list"
+  default     = []
+}
+
 # -------------------------------------------------------------------------------------------------
 # S3 backend (optional)
 # -------------------------------------------------------------------------------------------------

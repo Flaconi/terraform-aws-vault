@@ -121,7 +121,7 @@ data "aws_region" "current" {}
 # Vault ELB
 # -------------------------------------------------------------------------------------------------
 module "vault_elb" {
-  source = "github.com/Flaconi/terraform-aws-elb?ref=v0.1.6-RC"
+  source = "github.com/Flaconi/terraform-aws-elb?ref=v0.1.6"
 
   name       = "${var.vault_cluster_name}"
   vpc_id     = "${var.vpc_id}"

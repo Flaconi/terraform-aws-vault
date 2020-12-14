@@ -81,8 +81,9 @@ variable "vault_cluster_size" {
 # -------------------------------------------------------------------------------------------------
 # Security
 # -------------------------------------------------------------------------------------------------
-variable "ssh_security_group_id" {
-  description = "Security group ID of a bastion (or other EC2 instance) from which you will be allowed to ssh into Vault and Consul."
+variable "ssh_security_group_ids" {
+  description = "Security group IDs of a bastion (or other EC2 instance) from which you will be allowed to ssh into Vault and Consul."
+  type        = "list"
 }
 
 variable "vault_ingress_cidr_https" {

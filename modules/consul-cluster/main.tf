@@ -313,7 +313,7 @@ resource "aws_security_group" "lc_security_group" {
     from_port       = "22"
     to_port         = "22"
     protocol        = "tcp"
-    security_groups = ["${var.ssh_security_group_id}"]
+    security_groups = ["${var.ssh_security_group_ids}"]
     description     = "External SSH. Allow SSH access to Consul instances from this security group (from ELB or instance)."
   }
 

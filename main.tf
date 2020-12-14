@@ -81,7 +81,7 @@ module "vault_cluster" {
   # Security groups
   elb_security_group_id    = "${module.vault_elb.security_group_id}"
   consul_security_group_id = "${module.consul_cluster.security_group_id}"
-  ssh_security_group_id    = "${var.ssh_security_group_id}"
+  ssh_security_group_ids   = "${var.ssh_security_group_ids}"
 
   tags = "${var.tags}"
 }
@@ -185,7 +185,7 @@ module "consul_cluster" {
 
   # Security groups
   vault_security_group_id = "${module.vault_cluster.security_group_id}"
-  ssh_security_group_id   = "${var.ssh_security_group_id}"
+  ssh_security_group_ids  = "${var.ssh_security_group_ids}"
 
   # The EC2 Instances will use these tags to automatically discover each other and form a cluster
   cluster_tag_key   = "${local.consul_cluster_tag_key}"

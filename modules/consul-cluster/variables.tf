@@ -89,8 +89,9 @@ variable "instance_profile_path" {
 # -------------------------------------------------------------------------------------------------
 # Security groups (required)
 # -------------------------------------------------------------------------------------------------
-variable "ssh_security_group_id" {
-  description = "ID of the security group of a bastion ssh instance from where you can ssh into the Consul instances."
+variable "ssh_security_group_ids" {
+  description = "IDs of the security groups of a bastion ssh instance from where you can ssh into the Consul instances."
+  type        = "list"
 }
 
 variable "vault_security_group_id" {

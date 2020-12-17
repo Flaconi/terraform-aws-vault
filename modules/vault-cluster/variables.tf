@@ -89,8 +89,9 @@ variable "elb_security_group_id" {
   description = "ID of the security group of a public ELB from which you can API access the Vault instances."
 }
 
-variable "ssh_security_group_id" {
-  description = "ID of the security group of a bastion ssh instance from where you can ssh into the Vault instances."
+variable "ssh_security_group_ids" {
+  description = "IDs of the security groups of a bastion ssh instance from where you can ssh into the Vault instances."
+  type        = "list"
 }
 
 variable "consul_security_group_id" {

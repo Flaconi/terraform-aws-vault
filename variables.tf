@@ -98,6 +98,11 @@ variable "security_group_names" {
   default     = []
 }
 
+variable "ssl_certificate_id" {
+  description = "ARN of the certificate to be used for the Vault endpoint ELB"
+  type        = "string"
+}
+
 # -------------------------------------------------------------------------------------------------
 # S3 backend (optional)
 # -------------------------------------------------------------------------------------------------

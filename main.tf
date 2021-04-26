@@ -121,15 +121,17 @@ data "aws_region" "current" {}
 # Vault ELB
 # -------------------------------------------------------------------------------------------------
 module "vault_elb" {
-  source = "github.com/Flaconi/terraform-aws-elb?ref=v0.1.7"
+  source = "github.com/Flaconi/terraform-aws-elb?ref=v0.2.0"
 
   name       = "${var.vault_cluster_name}"
   vpc_id     = "${var.vpc_id}"
   subnet_ids = "${var.public_subnet_ids}"
 
   # Listener
-  lb_port       = "443"
-  instance_port = "8200"
+  lb_port            = "443"
+  lb_protocol        = "HTTPS"
+  instance_port      = "8200"
+  ssl_certificate_id = "${var.ssl_certificate_id}"
 
   # Health Checks
   target              = "HTTPS:8200/v1/sys/health?standbyok=true"

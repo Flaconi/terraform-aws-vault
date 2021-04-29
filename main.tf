@@ -131,6 +131,7 @@ module "vault_elb" {
   lb_port            = "443"
   lb_protocol        = "HTTPS"
   instance_port      = "8200"
+  instance_protocol  = "HTTPS"
   ssl_certificate_id = "${var.ssl_certificate_id}"
 
   # Health Checks

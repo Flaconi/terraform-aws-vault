@@ -79,7 +79,7 @@ module "vault_cluster" {
   health_check_type = "EC2"
 
   # Security groups
-  elb_security_group_id    = "${module.vault_elb.security_group_id}"
+  elb_security_group_id    = "${module.vault_elb.security_group_ids[0]}"
   consul_security_group_id = "${module.consul_cluster.security_group_id}"
   ssh_security_group_ids   = "${var.ssh_security_group_ids}"
 

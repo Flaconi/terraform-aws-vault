@@ -79,7 +79,7 @@ module "vault_cluster" {
   health_check_type = "EC2"
 
   # Security groups
-  elb_security_group_id    = "${module.vault_elb.security_group_id}"
+  elb_security_group_id    = "${module.vault_elb.security_group_ids[0]}"
   consul_security_group_id = "${module.consul_cluster.security_group_id}"
   ssh_security_group_ids   = "${var.ssh_security_group_ids}"
 
@@ -121,15 +121,18 @@ data "aws_region" "current" {}
 # Vault ELB
 # -------------------------------------------------------------------------------------------------
 module "vault_elb" {
-  source = "github.com/Flaconi/terraform-aws-elb?ref=v0.1.7"
+  source = "github.com/Flaconi/terraform-aws-elb?ref=v0.2.0"
 
   name       = "${var.vault_cluster_name}"
   vpc_id     = "${var.vpc_id}"
   subnet_ids = "${var.public_subnet_ids}"
 
   # Listener
-  lb_port       = "443"
-  instance_port = "8200"
+  lb_port            = "443"
+  lb_protocol        = "HTTPS"
+  instance_port      = "8200"
+  instance_protocol  = "HTTPS"
+  ssl_certificate_id = "${var.ssl_certificate_id}"
 
   # Health Checks
   target              = "HTTPS:8200/v1/sys/health?standbyok=true"

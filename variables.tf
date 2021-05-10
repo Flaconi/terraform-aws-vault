@@ -125,3 +125,13 @@ variable "kms_alias_name" {
   description = "The name of the KMS key that is used for S3 storage backend encryption."
   default     = ""
 }
+
+variable "ami_name_filter" {
+  description = "Name filter to help pick the AMI."
+  default     = ["vault-consul-ubuntu-*"]
+}
+
+variable "ami_owner" {
+  description = "AWS account ID of the AMI owner. Defaults to HashiCorp."
+  default     = "562637147889"
+}

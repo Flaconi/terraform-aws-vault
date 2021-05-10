@@ -41,6 +41,8 @@ module "aws_vault" {
 | vpc_id | The VPC ID into which you want to provision Vault. | string | - | yes |
 | public_subnet_ids | A list of public subnet IDs into which the Vault ELB will be provisioned. | list | - | yes |
 | private_subnet_ids | A list of private subnet IDs into which Vault and Consul will be provisioned. | list | - | yes |
+| ami_name_filter | Name filter to help pick the AMI | list | `["vault-consul-ubuntu-*"]` | no |
+| ami_owner | AWS account ID of the AMI owner. Defaults to HashiCorp | string | "562637147889" | no |
 | name | The name(-prefix) tag to apply to all AWS resources | string | `vault` | no |
 | tags | A map of additional tags to apply to all AWS resources | map | `<map>` | no |
 | consul_cluster_name | What to name the Consul server cluster and all of its associated resources | string | `vault-consul` | no |

@@ -21,6 +21,14 @@ chown ${ssh_user}:${ssh_user} "/home/${ssh_user}/.ssh/authorized_keys"
 readonly VAULT_TLS_CERT_FILE="/opt/vault/tls/vault.crt.pem"
 readonly VAULT_TLS_KEY_FILE="/opt/vault/tls/vault.key.pem"
 
+# Expose metrics for Prometheus to scrape
+cat << EOF >> /opt/vault/config/default.hcl
+telemetry {
+  prometheus_retention_time = "120s"
+  disable_hostname = true
+}
+EOF
+
 # Start Consul Client for auto-discovery
 /opt/consul/bin/run-consul \
 	--client \

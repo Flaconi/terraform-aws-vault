@@ -32,9 +32,9 @@ module "aws_vault" {
   source = "../.."
 
   # Placement
-  vpc_id             = "${module.aws_vpc.vpc_id}"
-  public_subnet_ids  = "${module.aws_vpc.public_subnets}"
-  private_subnet_ids = "${module.aws_vpc.private_subnets}"
+  vpc_id             = module.aws_vpc.vpc_id
+  public_subnet_ids  = module.aws_vpc.public_subnets
+  private_subnet_ids = module.aws_vpc.private_subnets
 
   # Resource Naming/Tagging
   name                = "vault-example"
@@ -43,8 +43,9 @@ module "aws_vault" {
 
   # Security
   ssh_keys                 = ["ssh-ed25519 AAAAC3Nznte5aaCdi1a1Lzaai/tX6Mc2E+S6g3lrClL09iBZ5cW2OZdSIqomcMko 2 mysshkey"]
-  ssh_security_group_ids   = ["${module.aws_vpc.bastion_security_group_id}"]
+  ssh_security_group_ids   = [module.aws_vpc.bastion_security_group_id]
   vault_ingress_cidr_https = ["0.0.0.0/0"]
 
   ssl_certificate_id = "arn:aws:acm:eu-central-1:123456789012:certificate/xxxxx-xxxx-xxxx-xxxx-xxxxx"
 }
+

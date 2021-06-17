@@ -30,7 +30,7 @@ terraform {
 data "aws_ami" "vault_consul" {
   most_recent = true
 
-  owners = ["${var.ami_owner}"]
+  owners = [var.ami_owner]
 
   filter {
     name   = "virtualization-type"
@@ -39,7 +39,7 @@ data "aws_ami" "vault_consul" {
 
   filter {
     name   = "name"
-    values = "${var.ami_name_filter}"
+    values = var.ami_name_filter
   }
 }
 
@@ -47,25 +47,25 @@ data "aws_ami" "vault_consul" {
 # DEPLOY THE VAULT SERVER CLUSTER
 # -------------------------------------------------------------------------------------------------
 module "vault_cluster" {
-  source = "modules/vault-cluster"
+  source = "./modules/vault-cluster"
 
-  cluster_name  = "${var.vault_cluster_name}"
-  cluster_size  = "${var.vault_cluster_size}"
-  instance_type = "${var.vault_instance_type}"
+  cluster_name  = var.vault_cluster_name
+  cluster_size  = var.vault_cluster_size
+  instance_type = var.vault_instance_type
 
-  ami_id    = "${data.aws_ami.vault_consul.image_id}"
-  user_data = "${data.template_file.user_data_vault_cluster.rendered}"
+  ami_id    = var.ami_id != "" ? var.ami_id : data.aws_ami.vault_consul.image_id
+  user_data = data.template_file.user_data_vault_cluster.rendered
 
-  vpc_id     = "${var.vpc_id}"
-  subnet_ids = "${var.private_subnet_ids}"
+  vpc_id     = var.vpc_id
+  subnet_ids = var.private_subnet_ids
 
   # Use S3 Storage Backend?
-  enable_s3_backend = "${var.enable_s3_backend}"
-  s3_bucket_name    = "${var.s3_bucket_name}"
+  enable_s3_backend = var.enable_s3_backend
+  s3_bucket_name    = var.s3_bucket_name
 
   # Encrypt S3 Storage Backend?
-  enable_s3_backend_encryption = "${var.enable_s3_backend_encryption}"
-  kms_alias_name               = "${var.kms_alias_name}"
+  enable_s3_backend_encryption = var.enable_s3_backend_encryption
+  kms_alias_name               = var.kms_alias_name
 
   # Do NOT use the ELB for the ASG health check, or the ASG will assume all sealed instances are
   # unhealthy and repeatedly try to redeploy them.
@@ -73,11 +73,11 @@ module "vault_cluster" {
   health_check_type = "EC2"
 
   # Security groups
-  elb_security_group_id    = "${module.vault_elb.security_group_ids[0]}"
-  consul_security_group_id = "${module.consul_cluster.security_group_id}"
-  ssh_security_group_ids   = "${var.ssh_security_group_ids}"
+  elb_security_group_id    = module.vault_elb.security_group_ids[0]
+  consul_security_group_id = module.consul_cluster.security_group_id
+  ssh_security_group_ids   = var.ssh_security_group_ids
 
-  tags = "${var.tags}"
+  tags = var.tags
 }
 
 # -------------------------------------------------------------------------------------------------
@@ -86,9 +86,9 @@ module "vault_cluster" {
 # IAM permissions from the Consul AWS Module's consul-iam-policies module.
 # -------------------------------------------------------------------------------------------------
 module "consul_iam_policies_servers" {
-  source = "github.com/hashicorp/terraform-aws-consul//modules/consul-iam-policies?ref=v0.4.0"
+  source = "github.com/hashicorp/terraform-aws-consul//modules/consul-iam-policies?ref=v0.7.0"
 
-  iam_role_id = "${module.vault_cluster.iam_role_id}"
+  iam_role_id = module.vault_cluster.iam_role_id
 }
 
 # -------------------------------------------------------------------------------------------------
@@ -96,37 +96,38 @@ module "consul_iam_policies_servers" {
 # This script will configure and start Vault
 # -------------------------------------------------------------------------------------------------
 data "template_file" "user_data_vault_cluster" {
-  template = "${file("${path.module}/user-data-vault.sh")}"
+  template = file("${path.module}/user-data-vault.sh")
 
-  vars {
-    enable_s3_backend        = "${var.enable_s3_backend ? 1 : 0}"
-    s3_bucket_region         = "${data.aws_region.current.name}"
-    s3_bucket_name           = "${var.s3_bucket_name}"
-    consul_cluster_tag_key   = "${local.consul_cluster_tag_key}"
-    consul_cluster_tag_value = "${local.consul_cluster_tag_val}"
-    ssh_keys                 = "${join("\n", "${var.ssh_keys}")}"
+  vars = {
+    enable_s3_backend        = var.enable_s3_backend ? 1 : 0
+    s3_bucket_region         = data.aws_region.current.name
+    s3_bucket_name           = var.s3_bucket_name
+    consul_cluster_tag_key   = local.consul_cluster_tag_key
+    consul_cluster_tag_value = local.consul_cluster_tag_val
+    ssh_keys                 = join("\n", var.ssh_keys)
     ssh_user                 = "ubuntu"
   }
 }
 
-data "aws_region" "current" {}
+data "aws_region" "current" {
+}
 
 # -------------------------------------------------------------------------------------------------
 # Vault ELB
 # -------------------------------------------------------------------------------------------------
 module "vault_elb" {
-  source = "github.com/Flaconi/terraform-aws-elb?ref=v0.2.0"
+  source = "github.com/Flaconi/terraform-aws-elb?ref=v1.0.0"
 
-  name       = "${var.vault_cluster_name}"
-  vpc_id     = "${var.vpc_id}"
-  subnet_ids = "${var.public_subnet_ids}"
+  name       = var.vault_cluster_name
+  vpc_id     = var.vpc_id
+  subnet_ids = var.public_subnet_ids
 
   # Listener
   lb_port            = "443"
   lb_protocol        = "HTTPS"
   instance_port      = "8200"
   instance_protocol  = "HTTPS"
-  ssl_certificate_id = "${var.ssl_certificate_id}"
+  ssl_certificate_id = var.ssl_certificate_id
 
   # Health Checks
   target              = "HTTPS:8200/v1/sys/health?standbyok=true"
@@ -136,11 +137,11 @@ module "vault_elb" {
   unhealthy_threshold = "2"
 
   # Security
-  inbound_cidr_blocks  = "${var.vault_ingress_cidr_https}"
-  security_group_names = "${var.security_group_names}"
+  inbound_cidr_blocks  = var.vault_ingress_cidr_https
+  security_group_names = var.security_group_names
 
   # DNS
-  route53_public_dns_name = "${var.vault_route53_public_dns_name}"
+  route53_public_dns_name = var.vault_route53_public_dns_name
 
   # https://github.com/hashicorp/terraform-aws-vault/blob/master/modules/vault-elb/main.tf#L104
   # When set to true, if either none of the ELB's EC2 instances are healthy or the ELB itself is
@@ -150,45 +151,45 @@ module "vault_elb" {
   # http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-values-alias.html#rrsets-values-alias-evaluate-target-health
   public_dns_evaluate_target_health = false
 
-  tags = "${var.tags}"
+  tags = var.tags
 }
 
 # Attach Vault ASG to Vault ELB
 resource "aws_autoscaling_attachment" "vault" {
-  autoscaling_group_name = "${module.vault_cluster.asg_name}"
-  elb                    = "${data.aws_elb.vault_elb.id}"
+  autoscaling_group_name = module.vault_cluster.asg_name
+  elb                    = data.aws_elb.vault_elb.id
 }
 
 data "aws_elb" "vault_elb" {
-  name = "${module.vault_elb.name}"
+  name = module.vault_elb.name
 }
 
 # -------------------------------------------------------------------------------------------------
 # DEPLOY THE CONSUL SERVER CLUSTER
 # -------------------------------------------------------------------------------------------------
 module "consul_cluster" {
-  source = "modules/consul-cluster"
+  source = "./modules/consul-cluster"
 
   # Naming/Tagging
-  cluster_name  = "${var.consul_cluster_name}"
-  cluster_size  = "${var.consul_cluster_size}"
-  instance_type = "${var.consul_instance_type}"
+  cluster_name  = var.consul_cluster_name
+  cluster_size  = var.consul_cluster_size
+  instance_type = var.consul_instance_type
 
-  ami_id    = "${data.aws_ami.vault_consul.image_id}"
-  user_data = "${data.template_file.user_data_consul.rendered}"
+  ami_id    = var.ami_id != "" ? var.ami_id : data.aws_ami.vault_consul.image_id
+  user_data = data.template_file.user_data_consul.rendered
 
-  vpc_id     = "${var.vpc_id}"
-  subnet_ids = "${var.private_subnet_ids}"
+  vpc_id     = var.vpc_id
+  subnet_ids = var.private_subnet_ids
 
   # Security groups
-  vault_security_group_id = "${module.vault_cluster.security_group_id}"
-  ssh_security_group_ids  = "${var.ssh_security_group_ids}"
+  vault_security_group_id = module.vault_cluster.security_group_id
+  ssh_security_group_ids  = var.ssh_security_group_ids
 
   # The EC2 Instances will use these tags to automatically discover each other and form a cluster
-  cluster_tag_key   = "${local.consul_cluster_tag_key}"
-  cluster_tag_value = "${local.consul_cluster_tag_val}"
+  cluster_tag_key   = local.consul_cluster_tag_key
+  cluster_tag_value = local.consul_cluster_tag_val
 
-  tags = "${var.tags}"
+  tags = var.tags
 }
 
 # -------------------------------------------------------------------------------------------------
@@ -196,12 +197,13 @@ module "consul_cluster" {
 # This script will configure and start Consul
 # -------------------------------------------------------------------------------------------------
 data "template_file" "user_data_consul" {
-  template = "${file("${path.module}/user-data-consul.sh")}"
+  template = file("${path.module}/user-data-consul.sh")
 
-  vars {
-    consul_cluster_tag_key   = "${local.consul_cluster_tag_key}"
-    consul_cluster_tag_value = "${local.consul_cluster_tag_val}"
-    ssh_keys                 = "${join("\n", "${var.ssh_keys}")}"
+  vars = {
+    consul_cluster_tag_key   = local.consul_cluster_tag_key
+    consul_cluster_tag_value = local.consul_cluster_tag_val
+    ssh_keys                 = join("\n", var.ssh_keys)
     ssh_user                 = "ubuntu"
   }
 }
+

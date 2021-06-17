@@ -7,7 +7,6 @@ variable "vpc_id" {
 
 variable "subnet_ids" {
   description = "The subnet IDs into which the EC2 Instances should be deployed. We recommend one subnet ID per node in the cluster_size variable. At least one of var.subnet_ids or var.availability_zones must be non-empty."
-  type        = "list"
 }
 
 # -------------------------------------------------------------------------------------------------
@@ -91,7 +90,7 @@ variable "instance_profile_path" {
 # -------------------------------------------------------------------------------------------------
 variable "ssh_security_group_ids" {
   description = "IDs of the security groups of a bastion ssh instance from where you can ssh into the Consul instances."
-  type        = "list"
+  type        = list(string)
 }
 
 variable "vault_security_group_id" {
@@ -110,7 +109,7 @@ variable "cluster_name" {
 # -------------------------------------------------------------------------------------------------
 variable "tags" {
   description = "Tags to attach to all AWS resources"
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
 
@@ -123,3 +122,4 @@ variable "cluster_tag_value" {
   description = "Add a tag with key var.clsuter_tag_key and this value to each Instance in the ASG. This can be used to automatically find other Consul nodes and form a cluster."
   default     = "auto-join"
 }
+

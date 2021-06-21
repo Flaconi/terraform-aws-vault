@@ -7,10 +7,12 @@ variable "vpc_id" {
 
 variable "public_subnet_ids" {
   description = "A list of public subnet IDs into which the Vault ELB will be provisioned."
+  type        = list(string)
 }
 
 variable "private_subnet_ids" {
   description = "A list of private subnet IDs into which Vault and Consul will be provisioned."
+  type        = list(string)
 }
 
 # -------------------------------------------------------------------------------------------------

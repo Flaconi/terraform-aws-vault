@@ -7,12 +7,12 @@ variable "vpc_id" {
 
 variable "public_subnet_ids" {
   description = "A list of public subnet IDs into which the Vault ELB will be provisioned."
-  type        = "list"
+  type        = list(string)
 }
 
 variable "private_subnet_ids" {
   description = "A list of private subnet IDs into which Vault and Consul will be provisioned."
-  type        = "list"
+  type        = list(string)
 }
 
 # -------------------------------------------------------------------------------------------------
@@ -25,7 +25,7 @@ variable "name" {
 
 variable "tags" {
   description = "A map of additional tags to apply to all AWS resources"
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
 
@@ -52,7 +52,7 @@ variable "vault_route53_public_dns_name" {
 # -------------------------------------------------------------------------------------------------
 variable "ssh_keys" {
   description = "A list of public ssh keys to add to authorized_keys files."
-  type        = "list"
+  type        = list(string)
 }
 
 # -------------------------------------------------------------------------------------------------
@@ -83,24 +83,24 @@ variable "vault_cluster_size" {
 # -------------------------------------------------------------------------------------------------
 variable "ssh_security_group_ids" {
   description = "Security group IDs of a bastion (or other EC2 instance) from which you will be allowed to ssh into Vault and Consul."
-  type        = "list"
+  type        = list(string)
 }
 
 variable "vault_ingress_cidr_https" {
   description = "List of CIDR's from which you are allowed to https access the vault cluster."
-  type        = "list"
+  type        = list(string)
   default     = ["0.0.0.0/0"]
 }
 
 variable "security_group_names" {
   description = "List of one or more security groups to be added to the load balancer"
-  type        = "list"
+  type        = list(string)
   default     = []
 }
 
 variable "ssl_certificate_id" {
   description = "ARN of the certificate to be used for the Vault endpoint ELB"
-  type        = "string"
+  type        = string
 }
 
 # -------------------------------------------------------------------------------------------------
@@ -129,6 +129,12 @@ variable "kms_alias_name" {
 variable "ami_name_filter" {
   description = "Name filter to help pick the AMI."
   default     = ["vault-consul-ubuntu-*"]
+}
+
+variable "ami_id" {
+  description = "ID of the AMI to be used for the Consul and Vault instances."
+  type        = string
+  default     = ""
 }
 
 variable "ami_owner" {

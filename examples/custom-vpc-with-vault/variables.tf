@@ -8,19 +8,19 @@ variable "name" {
 
 variable "tags" {
   description = "A map of additional tags to apply to all AWS resources"
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
 
 variable "vpc_tags" {
   description = "A map of additional tags to apply to the VPC"
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
 
 variable "public_subnet_tags" {
   description = "A map of additional tags to apply to all public subnets"
-  type        = "map"
+  type        = map(string)
 
   default = {
     Visibility = "public"
@@ -29,7 +29,7 @@ variable "public_subnet_tags" {
 
 variable "private_subnet_tags" {
   description = "A map of additional tags to apply to all private subnets"
-  type        = "map"
+  type        = map(string)
 
   default = {
     Visibility = "private"
@@ -96,3 +96,4 @@ variable "vault_cluster_size" {
   description = "The number of Vault server nodes to deploy. We strongly recommend using 3 or 5."
   default     = 3
 }
+

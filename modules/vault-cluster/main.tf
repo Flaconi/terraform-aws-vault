@@ -20,30 +20,32 @@ terraform {
 # -------------------------------------------------------------------------------------------------
 # NOTE: This block has been kept unchanged.
 resource "aws_autoscaling_group" "autoscaling_group" {
-  name_prefix = "${var.cluster_name}"
+  name_prefix = var.cluster_name
 
-  launch_configuration = "${aws_launch_configuration.launch_configuration.name}"
+  launch_configuration = aws_launch_configuration.launch_configuration.name
 
-  vpc_zone_identifier = ["${var.subnet_ids}"]
+  vpc_zone_identifier = flatten(var.subnet_ids)
 
   # Use a fixed-size cluster
-  min_size             = "${var.cluster_size}"
-  max_size             = "${var.cluster_size}"
-  desired_capacity     = "${var.cluster_size}"
-  termination_policies = ["${var.termination_policies}"]
+  min_size             = var.cluster_size
+  max_size             = var.cluster_size
+  desired_capacity     = var.cluster_size
+  termination_policies = [var.termination_policies]
 
-  health_check_type         = "${var.health_check_type}"
-  health_check_grace_period = "${var.health_check_grace_period}"
-  wait_for_capacity_timeout = "${var.wait_for_capacity_timeout}"
+  health_check_type         = var.health_check_type
+  health_check_grace_period = var.health_check_grace_period
+  wait_for_capacity_timeout = var.wait_for_capacity_timeout
 
-  tags = [
-    {
-      key                 = "Name"
-      value               = "${var.cluster_name}"
-      propagate_at_launch = true
-    },
-    "${local.tags_asg_format}",
-  ]
+  tags = concat(
+    [
+      {
+        "key"                 = "Name"
+        "value"               = var.cluster_name
+        "propagate_at_launch" = true
+      }
+    ],
+    local.tags_asg_format,
+  )
 }
 
 # -------------------------------------------------------------------------------------------------
@@ -52,18 +54,18 @@ resource "aws_autoscaling_group" "autoscaling_group" {
 # NOTE: This block has been altered
 resource "aws_launch_configuration" "launch_configuration" {
   name_prefix   = "${var.cluster_name}-"
-  image_id      = "${var.ami_id}"
-  instance_type = "${var.instance_type}"
-  user_data     = "${var.user_data}"
+  image_id      = var.ami_id
+  instance_type = var.instance_type
+  user_data     = var.user_data
 
-  iam_instance_profile = "${aws_iam_instance_profile.instance_profile.name}"
-  placement_tenancy    = "${var.tenancy}"
+  iam_instance_profile = aws_iam_instance_profile.instance_profile.name
+  placement_tenancy    = var.tenancy
 
   # Edit: key has been removed, as we will add our own SSH keys to the launch configuratoin
   #key_name = "${var.ssh_key_name}"
 
   # Edit: only allow the vault required vault rules and an external group for ssh access
-  security_groups = ["${aws_security_group.lc_security_group.id}", "${aws_security_group.attach_security_group.id}"]
+  security_groups = [aws_security_group.lc_security_group.id, aws_security_group.attach_security_group.id]
 
   #security_groups = ["${concat(list(aws_security_group.lc_security_group.id), var.additional_security_group_ids)}"]
 
@@ -72,12 +74,13 @@ resource "aws_launch_configuration" "launch_configuration" {
 
   #associate_public_ip_address = "${var.associate_public_ip_address}"
 
-  ebs_optimized = "${var.root_volume_ebs_optimized}"
+  ebs_optimized = var.root_volume_ebs_optimized
   root_block_device {
-    volume_type           = "${var.root_volume_type}"
-    volume_size           = "${var.root_volume_size}"
-    delete_on_termination = "${var.root_volume_delete_on_termination}"
+    volume_type           = var.root_volume_type
+    volume_size           = var.root_volume_size
+    delete_on_termination = var.root_volume_delete_on_termination
   }
+
   # Important note: whenever using a launch configuration with an auto scaling group, you must set
   # create_before_destroy = true. However, as soon as you set create_before_destroy = true in one
   # resource, you must also set it in every resource that it depends on, or you'll get an error
@@ -113,7 +116,7 @@ resource "aws_launch_configuration" "launch_configuration" {
 resource "aws_security_group" "attach_security_group" {
   name_prefix = "${var.cluster_name}-att"
   description = "Null Placeholder security group for other instances to  use as destination to access ${var.cluster_name}"
-  vpc_id      = "${var.vpc_id}"
+  vpc_id      = var.vpc_id
 
   # This is the least possible access I came up with.
   # Note, if no rule is defined, Terraform is not going to see any manually made changes.
@@ -143,7 +146,12 @@ resource "aws_security_group" "attach_security_group" {
     create_before_destroy = true
   }
 
-  tags = "${merge(map("Name", "${var.cluster_name}-null"), var.tags)}"
+  tags = merge(
+    {
+      "Name" = "${var.cluster_name}-null"
+    },
+    var.tags,
+  )
 }
 
 # 8200/tcp - api_port: The port to use for Vault API calls
@@ -154,9 +162,9 @@ resource "aws_security_group" "attach_security_group" {
 #
 # See all required rules here: https://github.com/hashicorp/terraform-aws-vault/issues/107
 resource "aws_security_group" "lc_security_group" {
-  name_prefix = "${var.cluster_name}"
+  name_prefix = var.cluster_name
   description = "Security group for the ${var.cluster_name} launch configuration"
-  vpc_id      = "${var.vpc_id}"
+  vpc_id      = var.vpc_id
 
   # Vault HA connections (ensure vault instances find themselves and form a cluster)
   ingress {
@@ -180,7 +188,7 @@ resource "aws_security_group" "lc_security_group" {
     from_port       = "8200"
     to_port         = "8200"
     protocol        = "tcp"
-    security_groups = ["${var.elb_security_group_id}"]
+    security_groups = [var.elb_security_group_id]
     description     = "External API. Allow API access to Vault instances from this security group (from ELB or instances)."
   }
 
@@ -210,7 +218,7 @@ resource "aws_security_group" "lc_security_group" {
     from_port       = "8301"
     to_port         = "8301"
     protocol        = "tcp"
-    security_groups = ["${var.consul_security_group_id}"]
+    security_groups = [var.consul_security_group_id]
     description     = "Consul Agent (TCP). Allow the Consul servers to access the Vault Consul agent from this security group (from ELB or instance)."
   }
 
@@ -218,7 +226,7 @@ resource "aws_security_group" "lc_security_group" {
     from_port       = "8301"
     to_port         = "8301"
     protocol        = "udp"
-    security_groups = ["${var.consul_security_group_id}"]
+    security_groups = [var.consul_security_group_id]
     description     = "Consul Agent (UDP). Allow the Consul servers to access the Vault Consul agent from this security group (from ELB or instance)."
   }
 
@@ -227,7 +235,7 @@ resource "aws_security_group" "lc_security_group" {
     from_port       = "22"
     to_port         = "22"
     protocol        = "tcp"
-    security_groups = ["${var.ssh_security_group_ids}"]
+    security_groups = var.ssh_security_group_ids
     description     = "External SSH. Allow SSH access to Vault instances from this security group (from ELB or instance)."
   }
 
@@ -248,7 +256,12 @@ resource "aws_security_group" "lc_security_group" {
     create_before_destroy = true
   }
 
-  tags = "${merge(map("Name", var.cluster_name), var.tags)}"
+  tags = merge(
+    {
+      "Name" = var.cluster_name
+    },
+    var.tags,
+  )
 }
 
 # -------------------------------------------------------------------------------------------------
@@ -258,9 +271,9 @@ resource "aws_security_group" "lc_security_group" {
 # -------------------------------------------------------------------------------------------------
 # NOTE: This block has been kept unchanged.
 resource "aws_iam_instance_profile" "instance_profile" {
-  name_prefix = "${var.cluster_name}"
+  name_prefix = var.cluster_name
   path        = "/"
-  role        = "${aws_iam_role.instance_role.name}"
+  role        = aws_iam_role.instance_role.name
 
   # aws_launch_configuration.launch_configuration in this module sets create_before_destroy to
   # true, which means everything it depends on, including this resource, must set it as well, or
@@ -271,8 +284,8 @@ resource "aws_iam_instance_profile" "instance_profile" {
 }
 
 resource "aws_iam_role" "instance_role" {
-  name_prefix        = "${var.cluster_name}"
-  assume_role_policy = "${data.aws_iam_policy_document.instance_role.json}"
+  name_prefix        = var.cluster_name
+  assume_role_policy = data.aws_iam_policy_document.instance_role.json
 
   # aws_launch_configuration.launch_configuration in this module sets create_before_destroy to
   # true, which means everything it depends on, including this resource, must set it as well, or
@@ -298,29 +311,32 @@ data "aws_iam_policy_document" "instance_role" {
 # Policy to allow access to S3
 # -------------------------------------------------------------------------------------------------
 resource "aws_iam_role_policy" "vault_s3" {
-  count  = "${var.enable_s3_backend ? 1 : 0}"
-  name   = "vault_s3"
-  role   = "${aws_iam_role.instance_role.id}"
-  policy = "${element(concat(data.aws_iam_policy_document.vault_s3.*.json, list("")), 0)}"
+  count = var.enable_s3_backend ? 1 : 0
+  name  = "vault_s3"
+  role  = aws_iam_role.instance_role.id
+  policy = element(
+    concat(data.aws_iam_policy_document.vault_s3.*.json, [""]),
+    0,
+  )
 }
 
 data "aws_iam_policy_document" "vault_s3" {
-  count = "${var.enable_s3_backend ? 1 : 0}"
+  count = var.enable_s3_backend ? 1 : 0
 
   statement {
     effect  = "Allow"
     actions = ["s3:*"]
 
     resources = [
-      "${data.aws_s3_bucket.vault_storage.arn}",
-      "${data.aws_s3_bucket.vault_storage.arn}/*",
+      data.aws_s3_bucket.vault_storage[0].arn,
+      "${data.aws_s3_bucket.vault_storage[0].arn}/*",
     ]
   }
 }
 
 data "aws_s3_bucket" "vault_storage" {
-  count  = "${var.enable_s3_backend ? 1 : 0}"
-  bucket = "${var.s3_bucket_name}"
+  count  = var.enable_s3_backend ? 1 : 0
+  bucket = var.s3_bucket_name
 }
 
 # -------------------------------------------------------------------------------------------------
@@ -328,14 +344,17 @@ data "aws_s3_bucket" "vault_storage" {
 # -------------------------------------------------------------------------------------------------
 # https://keita.blog/2017/02/21/iam-policy-for-kms-encrypted-remote-terraform-state-in-s3/
 resource "aws_iam_role_policy" "vault_s3_kms" {
-  count  = "${var.enable_s3_backend && var.enable_s3_backend_encryption ? 1 : 0}"
-  name   = "vault_s3_kms"
-  role   = "${aws_iam_role.instance_role.id}"
-  policy = "${element(concat(data.aws_iam_policy_document.vault_s3_kms.*.json, list("")), 0)}"
+  count = var.enable_s3_backend && var.enable_s3_backend_encryption ? 1 : 0
+  name  = "vault_s3_kms"
+  role  = aws_iam_role.instance_role.id
+  policy = element(
+    concat(data.aws_iam_policy_document.vault_s3_kms.*.json, [""]),
+    0,
+  )
 }
 
 data "aws_iam_policy_document" "vault_s3_kms" {
-  count = "${var.enable_s3_backend && var.enable_s3_backend_encryption ? 1 : 0}"
+  count = var.enable_s3_backend && var.enable_s3_backend_encryption ? 1 : 0
 
   statement {
     effect = "Allow"
@@ -347,12 +366,13 @@ data "aws_iam_policy_document" "vault_s3_kms" {
     ]
 
     resources = [
-      "${data.aws_kms_key.vault_encryption.arn}",
+      data.aws_kms_key.vault_encryption[0].arn,
     ]
   }
 }
 
 data "aws_kms_key" "vault_encryption" {
-  count  = "${var.enable_s3_backend && var.enable_s3_backend_encryption ? 1 : 0}"
-  key_id = "${var.kms_alias_name}"
+  count  = var.enable_s3_backend && var.enable_s3_backend_encryption ? 1 : 0
+  key_id = var.kms_alias_name
 }
+

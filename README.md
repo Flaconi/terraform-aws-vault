@@ -84,4 +84,4 @@ module "aws_vault" {
 
 [Apache 2.0](LICENSE)
 
-Copyright (c) 2018 [Flaconi GmbH](https://github.com/Flaconi)
+Copyright (c) 2018-2021 [Flaconi GmbH](https://github.com/Flaconi)

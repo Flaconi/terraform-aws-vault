@@ -1,14 +1,35 @@
 # Vault Cluster
 
-This module has been copy/pasted from the following repository:
-https://github.com/hashicorp/terraform-aws-vault/tree/master/modules/vault-cluster
+This module was inspired by the following repository: [terraform-aws-vault][1].
 
-Security groups have been re-written in order to make sure they are exclusively managed
-by Terraform and any other rules that have been added by hand (or other means) will be
-removed, whenever this module is called.
+## Caveats
 
-This is achieved by moving all separately defined rules from 'aws_security_group_rule'
-into a single 'aws_security_group' block.
+### Security Groups
+
+See this [GitHub issue][2], for clarifying the purpose of the SGs and their
+rules.
+
+__IMPORTANT:__
+
+1. Vault needs to allow inbound Consul connections. This is done by using
+   Consul's security group as destination in the vault `lc_security_group`
+   rules.
+1. Consul needs to allow inbound Vault connections. This is done by using
+   Vault's security group as destination in the consul `lc_security_group`
+   rules.
+
+This however creates a circular dependency in Terraform, as both rules need to
+be created and linked to each other.
+In order to overcome this problem, each of the launch configurations attaches
+an (almost) empty NULL security group that can be used by the other in their
+`lc_security_group` to act as destination.
+Once this behaviour is fixed in Terraform, each second security group will be
+removed.
+The `attach_security_group` represents the NULL security group that is also
+exported by this module in order to be used by security groups of other
+machines.
+
+[Here][3] are the ports in use and their purpose.
 
 ## Inputs
 
@@ -51,3 +72,7 @@ into a single 'aws_security_group' block.
 | iam_role_name | Name of the IAM role attached to the Vault instance. |
 | security_group_id | Security group ID to attach to other security group rules as destination. |
 | s3_bucket_arn | ARN of the S3 bucket if used as storage backend |
+
+[1]: https://github.com/hashicorp/terraform-aws-vault/tree/master/modules/vault-cluster
+[2]: https://github.com/hashicorp/terraform-aws-vault/issues/107
+[3]: https://www.consul.io/docs/install/ports#ports-table

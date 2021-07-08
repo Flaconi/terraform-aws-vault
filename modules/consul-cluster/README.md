@@ -1,16 +1,19 @@
 # Consul Cluster
 
-This module has been copy/pasted from the following repository:
-https://github.com/hashicorp/terraform-aws-consul/tree/master/modules/consul-cluster
+This module was inspired by the following repository: [terraform-aws-vault][1].
 
-Security groups have been re-written in order to make sure they are exclusively managed
-by Terraform and any other rules that have been added by hand (or other means) will be
-removed, whenever this module is called.
+## Caveats
 
-This is achieved by moving all separately defined rules from 'aws_security_group_rule'
-into a single 'aws_security_group' block.
+### Security Groups
+
+See this [GitHub issue][2], for clarifying the purpose of the SGs and their
+rules.
+
+[Here][3] are the ports in use and their purpose.
 
 ## Inputs
+
+See all required rules [here][2].
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
@@ -48,3 +51,7 @@ into a single 'aws_security_group' block.
 | iam_role_id | ID of the IAM role attached to the Consul instance. |
 | iam_role_name | Name of the IAM role attached to the Consul instance. |
 | security_group_id | Security group ID to attach to other security group rules as destination. |
+
+[1]: https://github.com/hashicorp/terraform-aws-consul/tree/master/modules/consul-cluster
+[2]: https://github.com/hashicorp/terraform-aws-vault/issues/107
+[3]: https://www.consul.io/docs/install/ports#ports-table

@@ -1,8 +1,6 @@
-# -------------------------------------------------------------------------------------------------
-# VPC (required)
-# -------------------------------------------------------------------------------------------------
 variable "vpc_id" {
   description = "The VPC ID into which you want to provision Vault."
+  type        = string
 }
 
 variable "public_subnet_ids" {
@@ -15,12 +13,10 @@ variable "private_subnet_ids" {
   type        = list(string)
 }
 
-# -------------------------------------------------------------------------------------------------
-# Resource Naming/Tagging (optional)
-# -------------------------------------------------------------------------------------------------
 variable "name" {
   description = "The name(-prefix) tag to apply to all AWS resources"
   default     = "vault"
+  type        = string
 }
 
 variable "tags" {
@@ -32,58 +28,53 @@ variable "tags" {
 variable "consul_cluster_name" {
   description = "What to name the Consul server cluster and all of its associated resources"
   default     = "vault-consul"
+  type        = string
 }
 
 variable "vault_cluster_name" {
   description = "What to name the Vault server cluster and all of its associated resources"
   default     = "vault-vault"
+  type        = string
 }
 
-# -------------------------------------------------------------------------------------------------
-# DNS (optional)
-# -------------------------------------------------------------------------------------------------
 variable "vault_route53_public_dns_name" {
   description = "The Route53 public DNS name for the vault ELB. If not set, no Route53 record will be created."
   default     = ""
+  type        = string
 }
 
-# -------------------------------------------------------------------------------------------------
-# Instances (required)
-# -------------------------------------------------------------------------------------------------
 variable "ssh_keys" {
   description = "A list of public ssh keys to add to authorized_keys files."
   type        = list(string)
 }
 
-# -------------------------------------------------------------------------------------------------
-# Instances (optional)
-# -------------------------------------------------------------------------------------------------
 variable "consul_instance_type" {
   description = "The type of EC2 Instance to run in the Consul ASG"
-  default     = "t2.micro"
+  default     = "t3.micro"
+  type        = string
 }
 
 variable "vault_instance_type" {
   description = "The type of EC2 Instance to run in the Vault ASG"
-  default     = "t2.micro"
+  default     = "t3.micro"
+  type        = string
 }
 
 variable "consul_cluster_size" {
   description = "The number of Consul server nodes to deploy. We strongly recommend using 3 or 5."
   default     = 3
+  type        = number
 }
 
 variable "vault_cluster_size" {
   description = "The number of Vault server nodes to deploy. We strongly recommend using 3 or 5."
   default     = 3
+  type        = number
 }
 
-# -------------------------------------------------------------------------------------------------
-# Security
-# -------------------------------------------------------------------------------------------------
-variable "ssh_security_group_ids" {
-  description = "Security group IDs of a bastion (or other EC2 instance) from which you will be allowed to ssh into Vault and Consul."
-  type        = list(string)
+variable "ssh_security_group_id" {
+  description = "Security group ID of a bastion (or other EC2 instance) from which you will be allowed to ssh into Vault and Consul."
+  type        = string
 }
 
 variable "vault_ingress_cidr_https" {
@@ -103,32 +94,34 @@ variable "ssl_certificate_id" {
   type        = string
 }
 
-# -------------------------------------------------------------------------------------------------
-# S3 backend (optional)
-# -------------------------------------------------------------------------------------------------
 variable "enable_s3_backend" {
   description = "Whether to configure an S3 storage backend in the same region in addition to Consul."
   default     = false
+  type        = bool
 }
 
 variable "s3_bucket_name" {
   description = "The name of the S3 bucket in the same region to use as a storage backend. Only used if 'enable_s3_backend' is set to true."
   default     = ""
+  type        = string
 }
 
 variable "enable_s3_backend_encryption" {
   description = "Whether to configure the S3 storage backend to be encrypted with a KMS key."
   default     = false
+  type        = bool
 }
 
 variable "kms_alias_name" {
   description = "The name of the KMS key that is used for S3 storage backend encryption."
   default     = ""
+  type        = string
 }
 
 variable "ami_name_filter" {
   description = "Name filter to help pick the AMI."
   default     = ["vault-consul-ubuntu-*"]
+  type        = list(string)
 }
 
 variable "ami_id" {
@@ -140,4 +133,5 @@ variable "ami_id" {
 variable "ami_owner" {
   description = "AWS account ID of the AMI owner. Defaults to HashiCorp."
   default     = "562637147889"
+  type        = string
 }

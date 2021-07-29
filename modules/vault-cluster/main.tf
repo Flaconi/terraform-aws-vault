@@ -41,6 +41,13 @@ resource "aws_launch_configuration" "launch_configuration" {
   iam_instance_profile = aws_iam_instance_profile.instance_profile.name
   placement_tenancy    = var.tenancy
 
+  security_groups = [
+    module.lc_security_group.security_group_id,
+    module.attach_security_group.security_group_id,
+  ]
+
+  associate_public_ip_address = false
+
   ebs_optimized = var.root_volume_ebs_optimized
   root_block_device {
     volume_type           = var.root_volume_type

@@ -29,6 +29,12 @@ resource "aws_autoscaling_group" "autoscaling_group" {
     ],
     local.tags_asg_format,
   )
+
+  lifecycle {
+    ignore_changes = [
+      load_balancers,
+    ]
+  }
 }
 
 resource "aws_launch_configuration" "launch_configuration" {

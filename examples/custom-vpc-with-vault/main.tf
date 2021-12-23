@@ -1,12 +1,8 @@
-provider "aws" {
-  version = ">= 3"
-}
-
 # -------------------------------------------------------------------------------------------------
 # VPC
 # -------------------------------------------------------------------------------------------------
 module "aws_vpc" {
-  source = "github.com/Flaconi/terraform-modules-vpc?ref=v0.1.0"
+  source = "github.com/Flaconi/terraform-modules-vpc?ref=v2.1.0"
 
   # VPC Definition
   vpc_cidr               = "40.10.0.0/16"
@@ -43,9 +39,8 @@ module "aws_vault" {
 
   # Security
   ssh_keys                 = ["ssh-ed25519 AAAAC3Nznte5aaCdi1a1Lzaai/tX6Mc2E+S6g3lrClL09iBZ5cW2OZdSIqomcMko 2 mysshkey"]
-  ssh_security_group_ids   = [module.aws_vpc.bastion_security_group_id]
+  ssh_security_group_id    = module.aws_vpc.bastion_security_group_id
   vault_ingress_cidr_https = ["0.0.0.0/0"]
 
   ssl_certificate_id = "arn:aws:acm:eu-central-1:123456789012:certificate/xxxxx-xxxx-xxxx-xxxx-xxxxx"
 }
-

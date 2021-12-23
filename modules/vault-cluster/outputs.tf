@@ -37,4 +37,3 @@ output "s3_bucket_arn" {
   value       = join(",", data.aws_s3_bucket.vault_storage.*.arn)
   description = "ARN of the S3 bucket if used as storage backend"
 }
-

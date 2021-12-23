@@ -1,6 +1,6 @@
 module "attach_security_group" {
   source  = "terraform-aws-modules/security-group/aws"
-  version = "4.3.0"
+  version = "4.7.0"
 
   name        = "${var.cluster_name}-att"
   description = "Null Placeholder security group for other instances to  use as destination to access ${var.cluster_name}"
@@ -38,7 +38,7 @@ module "attach_security_group" {
 
 module "lc_security_group" {
   source  = "terraform-aws-modules/security-group/aws"
-  version = "4.3.0"
+  version = "4.7.0"
 
   name        = var.cluster_name
   description = "Security group for the ${var.cluster_name} launch configuration"

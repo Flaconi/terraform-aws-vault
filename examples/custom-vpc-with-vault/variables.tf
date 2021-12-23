@@ -96,4 +96,3 @@ variable "vault_cluster_size" {
   description = "The number of Vault server nodes to deploy. We strongly recommend using 3 or 5."
   default     = 3
 }
-

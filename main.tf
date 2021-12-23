@@ -27,29 +27,29 @@ module "vault_cluster" {
 }
 
 module "consul_iam_policies_servers" {
-  source = "github.com/hashicorp/terraform-aws-consul//modules/consul-iam-policies?ref=v0.7.0"
+  source = "github.com/hashicorp/terraform-aws-consul//modules/consul-iam-policies?ref=v0.11.0"
 
   iam_role_id = module.vault_cluster.iam_role_id
 }
 
 module "vault_elb" {
-  source = "github.com/Flaconi/terraform-aws-elb?ref=v1.0.0"
+  source = "github.com/Flaconi/terraform-aws-elb?ref=v1.1.0"
 
   name       = var.vault_cluster_name
   vpc_id     = var.vpc_id
   subnet_ids = var.public_subnet_ids
 
-  lb_port            = "443"
+  lb_port            = 443
   lb_protocol        = "HTTPS"
-  instance_port      = "8200"
+  instance_port      = 8200
   instance_protocol  = "HTTPS"
   ssl_certificate_id = var.ssl_certificate_id
 
   target              = "HTTPS:8200/v1/sys/health?standbyok=true"
-  timeout             = "5"
-  interval            = "15"
-  healthy_threshold   = "2"
-  unhealthy_threshold = "2"
+  timeout             = 5
+  interval            = 15
+  healthy_threshold   = 2
+  unhealthy_threshold = 2
 
   inbound_cidr_blocks  = var.vault_ingress_cidr_https
   security_group_names = var.security_group_names

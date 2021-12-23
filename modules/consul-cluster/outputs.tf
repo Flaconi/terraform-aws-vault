@@ -32,4 +32,3 @@ output "security_group_id" {
   value       = module.attach_security_group.security_group_id
   description = "Security group ID to attach to other security group rules as destination."
 }
-

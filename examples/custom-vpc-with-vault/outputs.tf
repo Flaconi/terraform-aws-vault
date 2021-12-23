@@ -20,4 +20,3 @@ output "elb_route53_public_dns_name_vault" {
   value       = module.aws_vault.elb_route53_public_dns_name_vault
   description = "Route53 public DNS name for the vault ELB"
 }
-

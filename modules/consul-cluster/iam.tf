@@ -11,7 +11,7 @@ data "aws_iam_policy_document" "instance_role" {
 }
 
 module "iam_policies" {
-  source = "github.com/hashicorp/terraform-aws-consul//modules/consul-iam-policies?ref=v0.7.0"
+  source = "github.com/hashicorp/terraform-aws-consul//modules/consul-iam-policies?ref=v0.11.0"
 
   iam_role_id = aws_iam_role.instance_role.id
 }

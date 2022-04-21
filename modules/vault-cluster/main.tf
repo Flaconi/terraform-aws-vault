@@ -14,16 +14,23 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   health_check_grace_period = var.health_check_grace_period
   wait_for_capacity_timeout = var.wait_for_capacity_timeout
 
-  tags = concat(
-    [
-      {
-        "key"                 = "Name"
-        "value"               = var.cluster_name
-        "propagate_at_launch" = true
-      }
-    ],
-    local.tags_asg_format,
-  )
+  dynamic "tag" {
+    for_each = concat(
+      [
+        {
+          key                 = "Name"
+          value               = var.cluster_name
+          propagate_at_launch = true
+        }
+      ],
+      local.tags_asg_format,
+    )
+    content {
+      key                 = tag.value["key"]
+      value               = tag.value["value"]
+      propagate_at_launch = tag.value["propagate_at_launch"]
+    }
+  }
 
   lifecycle {
     ignore_changes = [

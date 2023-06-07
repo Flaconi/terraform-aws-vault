@@ -2,7 +2,7 @@
 # VPC
 # -------------------------------------------------------------------------------------------------
 module "aws_vpc" {
-  source = "github.com/Flaconi/terraform-modules-vpc?ref=v2.1.0"
+  source = "github.com/Flaconi/terraform-modules-vpc?ref=v3.0.0"
 
   # VPC Definition
   vpc_cidr               = "40.10.0.0/16"

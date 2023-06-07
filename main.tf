@@ -33,7 +33,7 @@ module "consul_iam_policies_servers" {
 }
 
 module "vault_elb" {
-  source = "github.com/Flaconi/terraform-aws-elb?ref=v1.1.0"
+  source = "github.com/Flaconi/terraform-aws-elb?ref=v2.0.0"
 
   name       = var.vault_cluster_name
   vpc_id     = var.vpc_id

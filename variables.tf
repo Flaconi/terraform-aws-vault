@@ -120,7 +120,7 @@ variable "kms_alias_name" {
 
 variable "ami_name_filter" {
   description = "Name filter to help pick the AMI."
-  default     = ["vault-consul-ubuntu-*"]
+  default     = ["vault-consul-ubuntu18-*"]
   type        = list(string)
 }
 

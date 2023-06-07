@@ -241,7 +241,7 @@ Default:
 
 ```json
 [
-  "vault-consul-ubuntu-*"
+  "vault-consul-ubuntu18-*"
 ]
 ```
 

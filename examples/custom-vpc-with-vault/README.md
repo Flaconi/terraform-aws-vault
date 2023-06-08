@@ -33,7 +33,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aws_vpc"></a> [aws\_vpc](#module\_aws\_vpc) | github.com/Flaconi/terraform-modules-vpc | v4.0.0 |
+| <a name="module_aws_vpc"></a> [aws\_vpc](#module\_aws\_vpc) | github.com/Flaconi/terraform-aws-vpc | v4.1.0 |
 | <a name="module_aws_vault"></a> [aws\_vault](#module\_aws\_vault) | ../.. | n/a |
 
 ## Resources

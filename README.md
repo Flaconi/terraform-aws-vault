@@ -46,7 +46,6 @@ module "aws_vault" {
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5 |
-| <a name="provider_template"></a> [template](#provider\_template) | n/a |
 
 <!-- TFDOCS_PROVIDER_END -->
 

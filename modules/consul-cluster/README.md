@@ -16,23 +16,23 @@ rules.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 5 |
 | <a name="provider_null"></a> [null](#provider\_null) | n/a |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_attach_security_group"></a> [attach\_security\_group](#module\_attach\_security\_group) | terraform-aws-modules/security-group/aws | 4.7.0 |
+| <a name="module_attach_security_group"></a> [attach\_security\_group](#module\_attach\_security\_group) | terraform-aws-modules/security-group/aws | 5.1.0 |
 | <a name="module_iam_policies"></a> [iam\_policies](#module\_iam\_policies) | github.com/hashicorp/terraform-aws-consul//modules/consul-iam-policies | v0.11.0 |
-| <a name="module_lc_security_group"></a> [lc\_security\_group](#module\_lc\_security\_group) | terraform-aws-modules/security-group/aws | 4.7.0 |
+| <a name="module_lc_security_group"></a> [lc\_security\_group](#module\_lc\_security\_group) | terraform-aws-modules/security-group/aws | 5.1.0 |
 
 ## Resources
 

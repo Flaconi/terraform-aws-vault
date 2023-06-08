@@ -22,8 +22,8 @@ Note that this example may create resources which can cost money (AWS Elastic IP
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5 |
 
 ## Providers
 
@@ -33,7 +33,7 @@ No providers.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aws_vpc"></a> [aws\_vpc](#module\_aws\_vpc) | github.com/Flaconi/terraform-modules-vpc | v2.1.0 |
+| <a name="module_aws_vpc"></a> [aws\_vpc](#module\_aws\_vpc) | github.com/Flaconi/terraform-modules-vpc | v4.0.0 |
 | <a name="module_aws_vault"></a> [aws\_vault](#module\_aws\_vault) | ../.. | n/a |
 
 ## Resources

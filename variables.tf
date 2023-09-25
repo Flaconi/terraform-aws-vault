@@ -120,5 +120,6 @@ variable "kms_alias_name" {
 
 variable "ami_id" {
   description = "ID of the AMI to be used for the Consul and Vault instances."
+  default     = null
   type        = string
 }

@@ -2,17 +2,16 @@ data "aws_region" "current" {}
 
 data "aws_ami" "vault_consul" {
   most_recent = true
+  owners      = [var.ami_owner]
 
-  owners = [var.ami_owner]
+  filter {
+    name   = "name"
+    values = ["flaconi/devops/custome/vault-consul-*"]
+  }
 
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
-  }
-
-  filter {
-    name   = "name"
-    values = var.ami_name_filter
   }
 }
 

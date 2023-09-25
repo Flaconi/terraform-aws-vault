@@ -118,20 +118,14 @@ variable "kms_alias_name" {
   type        = string
 }
 
-variable "ami_name_filter" {
-  description = "Name filter to help pick the AMI."
-  default     = ["vault-consul-ubuntu18-*"]
-  type        = list(string)
-}
-
 variable "ami_id" {
   description = "ID of the AMI to be used for the Consul and Vault instances."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "ami_owner" {
-  description = "AWS account ID of the AMI owner. Defaults to HashiCorp."
-  default     = "562637147889"
+  description = "AWS account id for the AMI."
+  default     = null
   type        = string
 }

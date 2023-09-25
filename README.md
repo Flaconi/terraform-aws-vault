@@ -100,6 +100,12 @@ Description: ARN of the certificate to be used for the Vault endpoint ELB
 
 Type: `string`
 
+### <a name="input_ami_id"></a> [ami\_id](#input\_ami\_id)
+
+Description: ID of the AMI to be used for the Consul and Vault instances.
+
+Type: `string`
+
 ## Optional Inputs
 
 The following input variables are optional (have default values):
@@ -229,14 +235,6 @@ Description: The name of the KMS key that is used for S3 storage backend encrypt
 Type: `string`
 
 Default: `""`
-
-### <a name="input_ami_id"></a> [ami\_id](#input\_ami\_id)
-
-Description: ID of the AMI to be used for the Consul and Vault instances.
-
-Type: `string`
-
-Default: `null`
 
 <!-- TFDOCS_INPUTS_END -->
 

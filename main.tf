@@ -5,7 +5,7 @@ module "vault_cluster" {
   cluster_size  = var.vault_cluster_size
   instance_type = var.vault_instance_type
 
-  ami_id = var.ami_id != "" ? var.ami_id : data.aws_ami.vault_consul.image_id
+  ami_id = var.ami_id
   user_data = templatefile("${path.module}/user-data/vault.sh.tftpl", {
     enable_s3_backend        = var.enable_s3_backend ? 1 : 0
     s3_bucket_region         = data.aws_region.current.name
@@ -81,7 +81,7 @@ module "consul_cluster" {
   cluster_size  = var.consul_cluster_size
   instance_type = var.consul_instance_type
 
-  ami_id = var.ami_id != "" ? var.ami_id : data.aws_ami.vault_consul.image_id
+  ami_id = var.ami_id
   user_data = templatefile("${path.module}/user-data/consul.sh.tftpl", {
     consul_cluster_tag_key   = local.consul_cluster_tag_key
     consul_cluster_tag_value = local.consul_cluster_tag_val

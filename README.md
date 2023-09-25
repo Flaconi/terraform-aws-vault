@@ -230,35 +230,13 @@ Type: `string`
 
 Default: `""`
 
-### <a name="input_ami_name_filter"></a> [ami\_name\_filter](#input\_ami\_name\_filter)
-
-Description: Name filter to help pick the AMI.
-
-Type: `list(string)`
-
-Default:
-
-```json
-[
-  "vault-consul-ubuntu18-*"
-]
-```
-
 ### <a name="input_ami_id"></a> [ami\_id](#input\_ami\_id)
 
 Description: ID of the AMI to be used for the Consul and Vault instances.
 
 Type: `string`
 
-Default: `""`
-
-### <a name="input_ami_owner"></a> [ami\_owner](#input\_ami\_owner)
-
-Description: AWS account ID of the AMI owner. Defaults to HashiCorp.
-
-Type: `string`
-
-Default: `"562637147889"`
+Default: `null`
 
 <!-- TFDOCS_INPUTS_END -->
 

@@ -123,9 +123,3 @@ variable "ami_id" {
   default     = null
   type        = string
 }
-
-variable "ami_owner" {
-  description = "AWS account id for the AMI."
-  default     = null
-  type        = string
-}

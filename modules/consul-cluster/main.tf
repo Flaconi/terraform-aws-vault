@@ -56,7 +56,7 @@ resource "aws_launch_configuration" "launch_configuration" {
   metadata_options {
     http_tokens = "required"
   }
-  
+
   security_groups = [
     module.lc_security_group.security_group_id,
     module.attach_security_group.security_group_id,

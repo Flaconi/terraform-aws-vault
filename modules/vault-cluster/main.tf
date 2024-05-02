@@ -56,7 +56,7 @@ resource "aws_launch_configuration" "launch_configuration" {
   metadata_options {
     http_tokens = "required"
   }
-  
+
   associate_public_ip_address = false
 
   ebs_optimized = var.root_volume_ebs_optimized

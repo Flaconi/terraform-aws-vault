@@ -53,6 +53,10 @@ resource "aws_launch_configuration" "launch_configuration" {
   iam_instance_profile = aws_iam_instance_profile.instance_profile.name
   placement_tenancy    = var.tenancy
 
+  metadata_options {
+    http_tokens = "required"
+  }
+  
   security_groups = [
     module.lc_security_group.security_group_id,
     module.attach_security_group.security_group_id,

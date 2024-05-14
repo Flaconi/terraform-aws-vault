@@ -54,7 +54,9 @@ resource "aws_launch_configuration" "launch_configuration" {
   placement_tenancy    = var.tenancy
 
   metadata_options {
-    http_tokens = "required"
+    http_tokens                 = "required"
+    http_put_response_hop_limit = 1
+    http_endpoint               = "enabled"
   }
 
   security_groups = [

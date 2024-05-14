@@ -54,7 +54,9 @@ resource "aws_launch_configuration" "launch_configuration" {
   ]
 
   metadata_options {
-    http_tokens = "required"
+    http_tokens                 = "required"
+    http_put_response_hop_limit = 1
+    http_endpoint               = "enabled"
   }
 
   associate_public_ip_address = false

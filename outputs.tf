@@ -19,12 +19,12 @@ output "asg_name_vault_cluster" {
 }
 
 output "launch_config_name_consul_cluster" {
-  value       = module.consul_cluster.launch_config_name
+  value       = module.consul_cluster.launch_template
   description = "Launch configuration name of the Consul cluster."
 }
 
 output "launch_config_name_vault_cluster" {
-  value       = module.vault_cluster.launch_config_name
+  value       = module.vault_cluster.launch_template
   description = "Launch configuration name of the Vault cluster."
 }
 

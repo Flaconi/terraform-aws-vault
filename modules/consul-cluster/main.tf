@@ -90,9 +90,6 @@ resource "aws_launch_template" "launch_template" {
   iam_instance_profile {
     name = aws_iam_instance_profile.instance_profile.name
   }
-  placement {
-    tenancy = var.tenancy
-  }
 
   vpc_security_group_ids = [
     module.lc_security_group.security_group_id,

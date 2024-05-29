@@ -30,11 +30,11 @@ variable "cluster_size" {
   type        = number
 }
 
-variable "tenancy" {
-  description = "The tenancy of the instance. Must be one of: default or dedicated."
-  default     = "default"
-  type        = string
-}
+# variable "tenancy" {
+#   description = "The tenancy of the instance. Must be one of: default or dedicated."
+#   default     = "default"
+#   type        = string
+# }
 
 variable "root_volume_ebs_optimized" {
   description = "If true, the launched EC2 instance will be EBS-optimized."

@@ -2,8 +2,8 @@ resource "aws_autoscaling_group" "autoscaling_group" {
   name_prefix = var.cluster_name
 
   launch_template {
-    id      = aws_launch_template.launch_configuration.id
-    version = aws_launch_template.launch_configuration.latest_version
+    id      = aws_launch_template.launch_template.id
+    version = aws_launch_template.launch_template.latest_version
   }
   # launch_configuration = aws_launch_configuration.launch_configuration.name
 
@@ -78,7 +78,7 @@ resource "aws_autoscaling_group" "autoscaling_group" {
 # }
 
 # Launch Template Resource
-resource "aws_launch_template" "launch_configuration" {
+resource "aws_launch_template" "launch_template" {
   name_prefix   = "${var.cluster_name}-"
   image_id      = var.ami_id
   instance_type = var.instance_type

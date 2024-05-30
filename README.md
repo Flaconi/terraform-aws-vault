@@ -254,8 +254,8 @@ Default: `null`
 | <a name="output_iam_role_arn_vault_cluster"></a> [iam\_role\_arn\_vault\_cluster](#output\_iam\_role\_arn\_vault\_cluster) | IAM role ARN attached to the Vault cluster. |
 | <a name="output_iam_role_id_consul_cluster"></a> [iam\_role\_id\_consul\_cluster](#output\_iam\_role\_id\_consul\_cluster) | IAM role ID attached to the Consul cluster. |
 | <a name="output_iam_role_id_vault_cluster"></a> [iam\_role\_id\_vault\_cluster](#output\_iam\_role\_id\_vault\_cluster) | IAM role ID attached to the Vault cluster. |
-| <a name="output_launch_config_name_consul_cluster"></a> [launch\_config\_name\_consul\_cluster](#output\_launch\_config\_name\_consul\_cluster) | Launch configuration name of the Consul cluster. |
-| <a name="output_launch_config_name_vault_cluster"></a> [launch\_config\_name\_vault\_cluster](#output\_launch\_config\_name\_vault\_cluster) | Launch configuration name of the Vault cluster. |
+| <a name="output_launch_template_name_consul_cluster"></a> [launch\_template\_name\_consul\_cluster](#output\_launch\_template\_name\_consul\_cluster) | Launch template name of the Consul cluster. |
+| <a name="output_launch_template_name_vault_cluster"></a> [launch\_template\_name\_vault\_cluster](#output\_launch\_template\_name\_vault\_cluster) | Launch template name of the Vault cluster. |
 | <a name="output_security_group_id_consul_cluster"></a> [security\_group\_id\_consul\_cluster](#output\_security\_group\_id\_consul\_cluster) | Security group ID of the Consul cluster to attach to other security group rules. |
 | <a name="output_security_group_id_vault_cluster"></a> [security\_group\_id\_vault\_cluster](#output\_security\_group\_id\_vault\_cluster) | Security group ID of the Vault cluster to attach to other security group rules. |
 

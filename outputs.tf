@@ -18,14 +18,14 @@ output "asg_name_vault_cluster" {
   description = "Autoscaling group name of the Vault cluster."
 }
 
-output "launch_config_name_consul_cluster" {
-  value       = module.consul_cluster.launch_config_name
-  description = "Launch configuration name of the Consul cluster."
+output "launch_template_name_consul_cluster" {
+  value       = module.consul_cluster.launch_template
+  description = "Launch template name of the Consul cluster."
 }
 
-output "launch_config_name_vault_cluster" {
-  value       = module.vault_cluster.launch_config_name
-  description = "Launch configuration name of the Vault cluster."
+output "launch_template_name_vault_cluster" {
+  value       = module.vault_cluster.launch_template
+  description = "Launch template name of the Vault cluster."
 }
 
 output "iam_role_arn_consul_cluster" {

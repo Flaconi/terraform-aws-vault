@@ -8,9 +8,9 @@ output "cluster_size" {
   description = "Number of Vault nodes"
 }
 
-output "launch_config_name" {
-  value       = aws_launch_configuration.launch_configuration.name
-  description = "Name of the Vault launch configuration"
+output "launch_template" {
+  value       = aws_launch_template.launch_template.name
+  description = "Name of the Vault launch_template"
 }
 
 output "iam_role_arn" {

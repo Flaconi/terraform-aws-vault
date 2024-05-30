@@ -63,7 +63,7 @@ machines.
 | [aws_iam_role.instance_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy.vault_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.vault_s3_kms](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
-| [aws_launch_configuration.launch_configuration](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_configuration) | resource |
+| [aws_launch_template.launch_template](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/launch_template) | resource |
 | [null_resource.tags_as_list_of_maps](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [aws_iam_policy_document.instance_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.vault_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
@@ -81,7 +81,6 @@ machines.
 | <a name="input_user_data"></a> [user\_data](#input\_user\_data) | A User Data script to execute while the server is booting. We recommend passing in a bash script that executes the run-vault script, which should have been installed in the AMI by the install-vault module. | `string` | n/a | yes |
 | <a name="input_instance_type"></a> [instance\_type](#input\_instance\_type) | The type of EC2 Instances to run for each node in the cluster (e.g. t2.micro). | `string` | `"t3.micro"` | no |
 | <a name="input_cluster_size"></a> [cluster\_size](#input\_cluster\_size) | The number of nodes to have in the cluster. We strongly recommend setting this to 3 or 5. | `number` | `3` | no |
-| <a name="input_tenancy"></a> [tenancy](#input\_tenancy) | The tenancy of the instance. Must be one of: default or dedicated. | `string` | `"default"` | no |
 | <a name="input_root_volume_ebs_optimized"></a> [root\_volume\_ebs\_optimized](#input\_root\_volume\_ebs\_optimized) | If true, the launched EC2 instance will be EBS-optimized. | `bool` | `false` | no |
 | <a name="input_root_volume_type"></a> [root\_volume\_type](#input\_root\_volume\_type) | The type of volume. Must be one of: standard, gp2, or io1. | `string` | `"standard"` | no |
 | <a name="input_root_volume_size"></a> [root\_volume\_size](#input\_root\_volume\_size) | The size, in GB, of the root EBS volume. | `number` | `50` | no |
@@ -106,7 +105,7 @@ machines.
 |------|-------------|
 | <a name="output_asg_name"></a> [asg\_name](#output\_asg\_name) | Name of the Vault autoscaling group |
 | <a name="output_cluster_size"></a> [cluster\_size](#output\_cluster\_size) | Number of Vault nodes |
-| <a name="output_launch_config_name"></a> [launch\_config\_name](#output\_launch\_config\_name) | Name of the Vault launch configuration |
+| <a name="output_launch_template"></a> [launch\_template](#output\_launch\_template) | Name of the Vault launch\_template |
 | <a name="output_iam_role_arn"></a> [iam\_role\_arn](#output\_iam\_role\_arn) | ARN of the IAM role attached to the Vault instance. |
 | <a name="output_iam_role_id"></a> [iam\_role\_id](#output\_iam\_role\_id) | ID of the IAM role attached to the Vault instance. |
 | <a name="output_iam_role_name"></a> [iam\_role\_name](#output\_iam\_role\_name) | Name of the IAM role attached to the Vault instance. |

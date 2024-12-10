@@ -31,9 +31,9 @@ rules.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_attach_security_group"></a> [attach\_security\_group](#module\_attach\_security\_group) | terraform-aws-modules/security-group/aws | 5.1.0 |
+| <a name="module_attach_security_group"></a> [attach\_security\_group](#module\_attach\_security\_group) | terraform-aws-modules/security-group/aws | 5.2.0 |
 | <a name="module_iam_policies"></a> [iam\_policies](#module\_iam\_policies) | github.com/hashicorp/terraform-aws-consul//modules/consul-iam-policies | v0.11.0 |
-| <a name="module_lc_security_group"></a> [lc\_security\_group](#module\_lc\_security\_group) | terraform-aws-modules/security-group/aws | 5.1.0 |
+| <a name="module_lc_security_group"></a> [lc\_security\_group](#module\_lc\_security\_group) | terraform-aws-modules/security-group/aws | 5.2.0 |
 
 ## Resources
 

@@ -82,12 +82,6 @@ Description: A list of private subnet IDs into which Vault and Consul will be pr
 
 Type: `list(string)`
 
-### <a name="input_ssh_keys"></a> [ssh\_keys](#input\_ssh\_keys)
-
-Description: A list of public ssh keys to add to authorized\_keys files.
-
-Type: `list(string)`
-
 ### <a name="input_ssh_security_group_id"></a> [ssh\_security\_group\_id](#input\_ssh\_security\_group\_id)
 
 Description: Security group ID of a bastion (or other EC2 instance) from which you will be allowed to ssh into Vault and Consul.
@@ -143,6 +137,22 @@ Description: The Route53 public DNS name for the vault ELB. If not set, no Route
 Type: `string`
 
 Default: `""`
+
+### <a name="input_ssh_user"></a> [ssh\_user](#input\_ssh\_user)
+
+Description: User name used for SSH-connections.
+
+Type: `string`
+
+Default: `"ubuntu"`
+
+### <a name="input_ssh_keys"></a> [ssh\_keys](#input\_ssh\_keys)
+
+Description: A list of public ssh keys to add to authorized\_keys files.
+
+Type: `list(string)`
+
+Default: `[]`
 
 ### <a name="input_consul_instance_type"></a> [consul\_instance\_type](#input\_consul\_instance\_type)
 

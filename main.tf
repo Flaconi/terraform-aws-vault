@@ -13,7 +13,7 @@ module "vault_cluster" {
     consul_cluster_tag_key   = local.consul_cluster_tag_key
     consul_cluster_tag_value = local.consul_cluster_tag_val
     ssh_keys                 = join("\n", var.ssh_keys)
-    ssh_user                 = "ubuntu"
+    ssh_user                 = var.ssh_user
   }))
 
   vpc_id     = var.vpc_id
@@ -71,7 +71,7 @@ module "vault_elb" {
 
 resource "aws_autoscaling_attachment" "vault" {
   autoscaling_group_name = module.vault_cluster.asg_name
-  elb                    = data.aws_elb.vault_elb.id
+  elb                    = module.vault_elb.id
 }
 
 module "consul_cluster" {
@@ -86,7 +86,7 @@ module "consul_cluster" {
     consul_cluster_tag_key   = local.consul_cluster_tag_key
     consul_cluster_tag_value = local.consul_cluster_tag_val
     ssh_keys                 = join("\n", var.ssh_keys)
-    ssh_user                 = "ubuntu"
+    ssh_user                 = var.ssh_user
   }))
 
   vpc_id     = var.vpc_id

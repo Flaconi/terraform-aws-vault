@@ -51,8 +51,8 @@ machines.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_attach_security_group"></a> [attach\_security\_group](#module\_attach\_security\_group) | terraform-aws-modules/security-group/aws | 5.1.0 |
-| <a name="module_lc_security_group"></a> [lc\_security\_group](#module\_lc\_security\_group) | terraform-aws-modules/security-group/aws | 5.1.0 |
+| <a name="module_attach_security_group"></a> [attach\_security\_group](#module\_attach\_security\_group) | terraform-aws-modules/security-group/aws | 5.2.0 |
+| <a name="module_lc_security_group"></a> [lc\_security\_group](#module\_lc\_security\_group) | terraform-aws-modules/security-group/aws | 5.2.0 |
 
 ## Resources
 

@@ -79,7 +79,7 @@ module "lc_security_group" {
       from_port                = "8200"
       to_port                  = "8200"
       protocol                 = "tcp"
-      source_security_group_id = var.elb_security_group_id
+      source_security_group_id = var.alb_security_group_id
       description              = "External API. Allow API access to Vault instances from this security group (from ELB or instances)."
     },
   ]

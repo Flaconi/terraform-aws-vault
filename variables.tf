@@ -84,10 +84,10 @@ variable "ssh_security_group_id" {
   type        = string
 }
 
-variable "vault_ingress_cidr_https" {
-  description = "List of CIDR's from which you are allowed to https access the vault cluster."
-  type        = list(string)
-  default     = ["0.0.0.0/0"]
+variable "vault_ingress_cidr" {
+  description = "CIDR's from which you are allowed to https access the vault cluster."
+  type        = string
+  default     = "0.0.0.0/0"
 }
 
 variable "security_group_names" {

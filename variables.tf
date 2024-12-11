@@ -43,9 +43,16 @@ variable "vault_route53_public_dns_name" {
   type        = string
 }
 
+variable "ssh_user" {
+  description = "User name used for SSH-connections."
+  type        = string
+  default     = "ubuntu"
+}
+
 variable "ssh_keys" {
   description = "A list of public ssh keys to add to authorized_keys files."
   type        = list(string)
+  default     = []
 }
 
 variable "consul_instance_type" {

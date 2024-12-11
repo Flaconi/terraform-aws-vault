@@ -119,18 +119,22 @@ module "vault_alb" {
   }
 
   # Route53 Record(s)
-  route53_records = var.vault_route53_public_dns_name != "" ? {
-    public = {
-      name    = var.vault_route53_public_dns_name
-      type    = "A"
-      zone_id = data.aws_route53_zone.public[0].id
-    }
-    private = {
-      name    = var.vault_route53_public_dns_name
-      type    = "A"
-      zone_id = data.aws_route53_zone.private[0].id
-    }
-  } : {}
+  route53_records = merge(
+    var.vault_route53_public_dns_name != "" ? {
+      public = {
+        name    = var.vault_route53_public_dns_name
+        type    = "A"
+        zone_id = data.aws_route53_zone.public[0].id
+      }
+    } : {},
+    var.vault_route53_private_dns_name != "" ? {
+      private = {
+        name    = var.vault_route53_private_dns_name
+        type    = "A"
+        zone_id = data.aws_route53_zone.private[0].id
+      }
+    } : {}
+  )
 
   tags = var.tags
 }

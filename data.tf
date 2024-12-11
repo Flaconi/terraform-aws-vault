@@ -10,12 +10,12 @@ data "aws_route53_zone" "public" {
 }
 
 data "aws_route53_zone" "private" {
-  count = var.vault_route53_public_dns_name != "" ? 1 : 0
+  count = var.vault_route53_private_dns_name != "" ? 1 : 0
 
   private_zone = true
 
   # Removes the first sub-domain part from the FQDN to use as hosted zone.
-  name = "${replace(var.vault_route53_public_dns_name, "/^.+?\\./", "")}."
+  name = "${replace(var.vault_route53_private_dns_name, "/^.+?\\./", "")}."
 }
 
 data "aws_security_groups" "alb" {

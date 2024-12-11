@@ -43,6 +43,12 @@ variable "vault_route53_public_dns_name" {
   type        = string
 }
 
+variable "vault_route53_private_dns_name" {
+  description = "The Route53 private DNS name for the vault ELB. If not set, no Route53 record will be created."
+  default     = ""
+  type        = string
+}
+
 variable "ssh_user" {
   description = "User name used for SSH-connections."
   type        = string

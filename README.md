@@ -138,6 +138,14 @@ Type: `string`
 
 Default: `""`
 
+### <a name="input_vault_route53_private_dns_name"></a> [vault\_route53\_private\_dns\_name](#input\_vault\_route53\_private\_dns\_name)
+
+Description: The Route53 private DNS name for the vault ELB. If not set, no Route53 record will be created.
+
+Type: `string`
+
+Default: `""`
+
 ### <a name="input_ssh_user"></a> [ssh\_user](#input\_ssh\_user)
 
 Description: User name used for SSH-connections.

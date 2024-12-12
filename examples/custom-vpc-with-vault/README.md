@@ -66,8 +66,8 @@ No resources.
 | Name | Description |
 |------|-------------|
 | <a name="output_elb_fqdn_bastion"></a> [elb\_fqdn\_bastion](#output\_elb\_fqdn\_bastion) | AWS generated CNAME for the bastion host ELB |
-| <a name="output_elb_fqdn_vault"></a> [elb\_fqdn\_vault](#output\_elb\_fqdn\_vault) | AWS generated CNAME for the vault ELB |
 | <a name="output_elb_route53_public_dns_name_bastion"></a> [elb\_route53\_public\_dns\_name\_bastion](#output\_elb\_route53\_public\_dns\_name\_bastion) | Route53 public DNS name for the bastion host ELB |
-| <a name="output_elb_route53_public_dns_name_vault"></a> [elb\_route53\_public\_dns\_name\_vault](#output\_elb\_route53\_public\_dns\_name\_vault) | Route53 public DNS name for the vault ELB |
+| <a name="output_alb_fqdn_vault"></a> [alb\_fqdn\_vault](#output\_alb\_fqdn\_vault) | AWS generated CNAME for the vault ALB |
+| <a name="output_alb_route53_public_dns_name_vault"></a> [alb\_route53\_public\_dns\_name\_vault](#output\_alb\_route53\_public\_dns\_name\_vault) | Route53 public DNS name for the vault ALB |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

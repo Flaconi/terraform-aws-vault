@@ -78,7 +78,7 @@ variable "health_check_grace_period" {
   type        = number
 }
 
-variable "elb_security_group_id" {
+variable "alb_security_group_id" {
   description = "ID of the security group of a public ELB from which you can API access the Vault instances."
   type        = string
 }

@@ -138,6 +138,14 @@ Type: `string`
 
 Default: `""`
 
+### <a name="input_vault_route53_private_dns_name"></a> [vault\_route53\_private\_dns\_name](#input\_vault\_route53\_private\_dns\_name)
+
+Description: The Route53 private DNS name for the vault ELB. If not set, no Route53 record will be created.
+
+Type: `string`
+
+Default: `""`
+
 ### <a name="input_ssh_user"></a> [ssh\_user](#input\_ssh\_user)
 
 Description: User name used for SSH-connections.
@@ -186,19 +194,13 @@ Type: `number`
 
 Default: `3`
 
-### <a name="input_vault_ingress_cidr_https"></a> [vault\_ingress\_cidr\_https](#input\_vault\_ingress\_cidr\_https)
+### <a name="input_vault_ingress_cidr"></a> [vault\_ingress\_cidr](#input\_vault\_ingress\_cidr)
 
-Description: List of CIDR's from which you are allowed to https access the vault cluster.
+Description: CIDR's from which you are allowed to https access the vault cluster.
 
-Type: `list(string)`
+Type: `string`
 
-Default:
-
-```json
-[
-  "0.0.0.0/0"
-]
-```
+Default: `"0.0.0.0/0"`
 
 ### <a name="input_security_group_names"></a> [security\_group\_names](#input\_security\_group\_names)
 
@@ -255,11 +257,11 @@ Default: `null`
 
 | Name | Description |
 |------|-------------|
+| <a name="output_alb_fqdn_vault"></a> [alb\_fqdn\_vault](#output\_alb\_fqdn\_vault) | The AWS provided CNAME of the Vault ALB. |
+| <a name="output_alb_route53_public_dns_name_vault"></a> [alb\_route53\_public\_dns\_name\_vault](#output\_alb\_route53\_public\_dns\_name\_vault) | The Route53 name attached to the Vault ALB, if specified in variables. |
 | <a name="output_asg_name_consul_cluster"></a> [asg\_name\_consul\_cluster](#output\_asg\_name\_consul\_cluster) | Autoscaling group name of the Consul cluster. |
 | <a name="output_asg_name_vault_cluster"></a> [asg\_name\_vault\_cluster](#output\_asg\_name\_vault\_cluster) | Autoscaling group name of the Vault cluster. |
 | <a name="output_aws_region"></a> [aws\_region](#output\_aws\_region) | Used AWS region. |
-| <a name="output_elb_fqdn_vault"></a> [elb\_fqdn\_vault](#output\_elb\_fqdn\_vault) | The AWS provided CNAME of the Vault ELB. |
-| <a name="output_elb_route53_public_dns_name_vault"></a> [elb\_route53\_public\_dns\_name\_vault](#output\_elb\_route53\_public\_dns\_name\_vault) | The Route53 name attached to the Vault ELB, if spcified in variables. |
 | <a name="output_iam_role_arn_consul_cluster"></a> [iam\_role\_arn\_consul\_cluster](#output\_iam\_role\_arn\_consul\_cluster) | IAM role ARN attached to the Consul cluster. |
 | <a name="output_iam_role_arn_vault_cluster"></a> [iam\_role\_arn\_vault\_cluster](#output\_iam\_role\_arn\_vault\_cluster) | IAM role ARN attached to the Vault cluster. |
 | <a name="output_iam_role_id_consul_cluster"></a> [iam\_role\_id\_consul\_cluster](#output\_iam\_role\_id\_consul\_cluster) | IAM role ID attached to the Consul cluster. |

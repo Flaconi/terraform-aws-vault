@@ -1,11 +1,11 @@
-output "elb_fqdn_vault" {
-  value       = module.vault_elb.fqdn
-  description = "The AWS provided CNAME of the Vault ELB."
+output "alb_fqdn_vault" {
+  value       = module.vault_alb.dns_name
+  description = "The AWS provided CNAME of the Vault ALB."
 }
 
-output "elb_route53_public_dns_name_vault" {
-  value       = module.vault_elb.route53_public_dns_name
-  description = "The Route53 name attached to the Vault ELB, if spcified in variables."
+output "alb_route53_public_dns_name_vault" {
+  value       = var.vault_route53_public_dns_name
+  description = "The Route53 name attached to the Vault ALB, if specified in variables."
 }
 
 output "asg_name_consul_cluster" {

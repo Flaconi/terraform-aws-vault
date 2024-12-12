@@ -38,9 +38,9 @@ module "aws_vault" {
   vault_cluster_name  = "vault-example-vault"
 
   # Security
-  ssh_keys                 = ["ssh-ed25519 AAAAC3Nznte5aaCdi1a1Lzaai/tX6Mc2E+S6g3lrClL09iBZ5cW2OZdSIqomcMko 2 mysshkey"]
-  ssh_security_group_id    = module.aws_vpc.bastion_security_group_id
-  vault_ingress_cidr_https = ["0.0.0.0/0"]
+  ssh_keys              = ["ssh-ed25519 AAAAC3Nznte5aaCdi1a1Lzaai/tX6Mc2E+S6g3lrClL09iBZ5cW2OZdSIqomcMko 2 mysshkey"]
+  ssh_security_group_id = module.aws_vpc.bastion_security_group_id
+  vault_ingress_cidr    = "0.0.0.0/0"
 
   ssl_certificate_id = "arn:aws:acm:eu-central-1:123456789012:certificate/xxxxx-xxxx-xxxx-xxxx-xxxxx"
 }

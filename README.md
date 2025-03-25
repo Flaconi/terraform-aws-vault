@@ -162,6 +162,14 @@ Type: `list(string)`
 
 Default: `[]`
 
+### <a name="input_pushgateway_urls"></a> [pushgateway\_urls](#input\_pushgateway\_urls)
+
+Description: A list of Prometheus Pushgateway URLs
+
+Type: `list(string)`
+
+Default: `[]`
+
 ### <a name="input_consul_instance_type"></a> [consul\_instance\_type](#input\_consul\_instance\_type)
 
 Description: The type of EC2 Instance to run in the Consul ASG

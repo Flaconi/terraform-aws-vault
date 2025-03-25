@@ -61,6 +61,12 @@ variable "ssh_keys" {
   default     = []
 }
 
+variable "pushgateway_urls" {
+  description = "A list of Prometheus Pushgateway URLs"
+  type        = list(string)
+  default     = []
+}
+
 variable "consul_instance_type" {
   description = "The type of EC2 Instance to run in the Consul ASG"
   default     = "t3.micro"

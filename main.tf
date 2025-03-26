@@ -14,6 +14,7 @@ module "vault_cluster" {
     consul_cluster_tag_value = local.consul_cluster_tag_val
     ssh_keys                 = join("\n", var.ssh_keys)
     ssh_user                 = var.ssh_user
+    pushgateway_urls         = join(" ", var.pushgateway_urls)
   }))
 
   vpc_id     = var.vpc_id

@@ -72,7 +72,7 @@ SCRIPT
 
   chmod +x /usr/local/bin/vault_health_push.sh
 
-  # Add a system cron job to run every minute
-  echo "* * * * * root /usr/local/bin/vault_health_push.sh >> /var/log/push_vault_metrics.log 2>&1" > /etc/cron.d/pushmetrics
+  # Add a system cron job to run every 2 minutes
+  echo "*/2 * * * * root /usr/local/bin/vault_health_push.sh >> /var/log/push_vault_metrics.log 2>&1" > /etc/cron.d/pushmetrics
 
 fi

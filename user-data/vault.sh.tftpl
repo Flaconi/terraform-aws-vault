@@ -53,12 +53,6 @@ fi
 # Only create the script if pushgateway_urls is not empty
 if [ -n "${pushgateway_urls}" ]; then
 
-  # Check if crontab command is available
-    if ! command -v crontab &> /dev/null; then
-      echo "crontab not found. Installing cron..."
-      apt-get install -y cron
-  fi
-
   # Create Vault health check script
   cat << 'SCRIPT' > /usr/local/bin/vault_health_push.sh
   #!/bin/bash

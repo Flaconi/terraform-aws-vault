@@ -66,7 +66,7 @@ if [ -n "${pushgateway_urls}" ]; then
 
   # Loop through each Pushgateway URL and send metrics
   for PUSHGATEWAY_URL in ${pushgateway_urls}; do
-    echo "# HELP vault_sealed The state of Vault (0 = unsealed, 1 = sealed)\n # TYPE vault_sealed gauge\n vault_sealed{instance=\"$INSTANCE_IP\", instance_id=\"$INSTANCE_ID\"} $${VAULT_STATUS}" | /usr/bin/curl --data-binary @- $${PUSHGATEWAY_URL}/metrics/job/vault_health/instance/$${INSTANCE_IP} --expire=5m
+    echo "# HELP vault_sealed The state of Vault (0 = unsealed, 1 = sealed)\n # TYPE vault_sealed gauge\n vault_sealed{instance=\"$INSTANCE_IP\", instance_id=\"$INSTANCE_ID\"} $${VAULT_STATUS}" | /usr/bin/curl --data-binary @- $${PUSHGATEWAY_URL}/metrics/job/vault_health/instance/$${INSTANCE_IP}
   done
 SCRIPT
 
